@@ -3,3 +3,4 @@ config.php
 image
 .well-known/
 php.ini
+system/storage/
