@@ -1,15 +1,15 @@
 <?php
 // HTTP
-define('HTTP_SERVER', 'http://nt-phones.local/');
+define('HTTP_SERVER', 'https://cellshop.2xpowers.com/');
 
 // HTTPS
-define('HTTPS_SERVER', 'http://nt-phones.local/');
+define('HTTPS_SERVER', 'https://cellshop.2xpowers.com/');
 
 // DIR
-define('DIR_APPLICATION', '/var/www/html/nt-phones/catalog/');
-define('DIR_SYSTEM', '/var/www/html/nt-phones/system/');
-define('DIR_IMAGE', '/var/www/html/nt-phones/image/');
-define('DIR_STORAGE', '/var/www/html/nt_phones_storage/');
+define('DIR_APPLICATION', '/home/codetghy/cellshop.2xpowers.com/catalog/');
+define('DIR_SYSTEM', '/home/codetghy/cellshop.2xpowers.com/system/');
+define('DIR_IMAGE', '/home/codetghy/cellshop.2xpowers.com/image/');
+define('DIR_STORAGE', '/home/codetghy/cellshop_storage/');
 define('DIR_LANGUAGE', DIR_APPLICATION . 'language/');
 define('DIR_TEMPLATE', DIR_APPLICATION . 'view/theme/');
 define('DIR_CONFIG', DIR_SYSTEM . 'config/');
@@ -23,8 +23,8 @@ define('DIR_UPLOAD', DIR_STORAGE . 'upload/');
 // DB
 define('DB_DRIVER', 'mysqli');
 define('DB_HOSTNAME', 'localhost');
-define('DB_USERNAME', 'phpmyadmin');
-define('DB_PASSWORD', 'phpmy_pass');
-define('DB_DATABASE', 'nt_phones');
+define('DB_USERNAME', 'codetghy_cellshopuser');
+define('DB_PASSWORD', 'n};Fu2UY4KO0');
+define('DB_DATABASE', 'codetghy_cellshop');
 define('DB_PORT', '3306');
 define('DB_PREFIX', 'oc_');
