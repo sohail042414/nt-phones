@@ -585,6 +585,8 @@ class ControllerCatalogProduct extends Controller {
 
 		$data['languages'] = $this->model_localisation_language->getLanguages();
 
+		$data['language'] = $data['languages']['en-gb'];
+	
 		if (isset($this->request->post['product_description'])) {
 			$data['product_description'] = $this->request->post['product_description'];
 		} elseif (isset($this->request->get['product_id'])) {
@@ -793,7 +795,16 @@ class ControllerCatalogProduct extends Controller {
 
 		$this->load->model('localisation/weight_class');
 
-		$data['weight_classes'] = $this->model_localisation_weight_class->getWeightClasses();
+		$weight_classes = $this->model_localisation_weight_class->getWeightClasses();
+
+		$data['weight_classes'] = array();
+
+		foreach($weight_classes as $cls){
+			
+			if($cls['unit'] == 'lb'){
+				$data['weight_classes'][] = $cls;
+			}
+		}
 
 		if (isset($this->request->post['weight_class_id'])) {
 			$data['weight_class_id'] = $this->request->post['weight_class_id'];
@@ -829,7 +840,17 @@ class ControllerCatalogProduct extends Controller {
 
 		$this->load->model('localisation/length_class');
 
-		$data['length_classes'] = $this->model_localisation_length_class->getLengthClasses();
+		$length_classes = $this->model_localisation_length_class->getLengthClasses();
+
+
+		$data['length_classes'] = array();
+
+		foreach($length_classes as $cls){
+			
+			if($cls['unit'] == 'cm'){
+				$data['length_classes'][] = $cls;
+			}
+		}
 
 		if (isset($this->request->post['length_class_id'])) {
 			$data['length_class_id'] = $this->request->post['length_class_id'];
@@ -970,13 +991,13 @@ class ControllerCatalogProduct extends Controller {
 			}
 
 			$data['product_options'][] = array(
-				'product_option_id'    => $product_option['product_option_id'],
+				'product_option_id'    => isset($product_option['product_option_id']) ? $product_option['product_option_id']:0 ,
 				'product_option_value' => $product_option_value_data,
 				'option_id'            => $product_option['option_id'],
 				'name'                 => $product_option['name'],
 				'type'                 => $product_option['type'],
 				'value'                => isset($product_option['value']) ? $product_option['value'] : '',
-				'required'             => $product_option['required']
+				'required'             => isset($product_option['required']) ? $product_option['required'] : 1
 			);
 		}
 
@@ -1159,6 +1180,40 @@ class ControllerCatalogProduct extends Controller {
 		} else {
 			$data['product_layout'] = array();
 		}
+
+		if (isset($this->request->post['network'])) {
+			$data['network'] = $this->request->post['network'];
+		} elseif (!empty($product_info)) {
+			$data['network'] = $product_info['network'];
+		} else {
+			$data['network'] = '';
+		}
+
+		if (isset($this->request->post['memory'])) {
+			$data['memory'] = $this->request->post['memory'];
+		} elseif (!empty($product_info)) {
+			$data['memory'] = $product_info['memory'];
+		} else {
+			$data['memory'] = '';
+		}
+
+		if (isset($this->request->post['color'])) {
+			$data['color'] = $this->request->post['color'];
+		} elseif (!empty($product_info)) {
+			$data['color'] = $product_info['color'];
+		} else {
+			$data['color'] = '';
+		}
+
+		if (isset($this->request->post['grade'])) {
+			$data['grade'] = $this->request->post['grade'];
+		} elseif (!empty($product_info)) {
+			$data['grade'] = $product_info['grade'];
+		} else {
+			$data['grade'] = '';
+		}
+
+
 
 		$this->load->model('design/layout');
 
