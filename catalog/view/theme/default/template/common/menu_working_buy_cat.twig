@@ -9,18 +9,26 @@
     </div>
     <div class="collapse navbar-collapse navbar-ex1-collapse collapse in">
       <ul class="nav navbar-nav">
-        <li class="dropdown">
-          <a href="" class="dropdown-toggle" data-toggle="dropdown">BUY</a>
+        {% for category in categories %}
+        {% if category.children %}
+        <li class="dropdown"><a href="{{ category.href }}" class="dropdown-toggle" data-toggle="dropdown">{{ category.name }}</a>
           <div class="dropdown-menu">
-            <div class="dropdown-inner">               
+            <div class="dropdown-inner"> 
+            {% for children in category.children|batch(category.children|length / category.column|round(1, 'ceil')) %}
               <ul class="list-unstyled">
-                {% for category in categories %}
-                      <li><a href="{{ category.href }}">{{ category.name }}</a></li>                  
+                {% for child in children %}
+                <li><a href="{{ child.href }}">{{ child.name }}</a></li>
                 {% endfor %}
               </ul>
+              {% endfor %}
             </div>
+            <a href="{{ category.href }}" class="see-all">{{ text_all }} {{ category.name }}</a> 
           </div>
         </li>
+        {% else %}
+        <li><a href="{{ category.href }}">{{ category.name }}</a></li>
+        {% endif %}
+        {% endfor %}
         <li>
           <a href="{{ sell_href }}" >SELL</a>
         </li>
