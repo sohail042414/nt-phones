@@ -26,7 +26,24 @@
       <div class="panel-body">
           <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-product" class="form-horizontal">           
             {% for language in languages %}
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label" for="input-manufacturer"><span data-toggle="tooltip" title="{{ help_manufacturer }}">{{ entry_manufacturer }}</span></label>
+              <div class="col-sm-10">
+                <input type="text" name="manufacturer" value="{{ manufacturer }}" placeholder="{{ entry_manufacturer }}" id="input-manufacturer" class="form-control"/> <input type="hidden" name="manufacturer_id" value="{{ manufacturer_id }}"/>
+              </div>
+            </div>
+
             <div class="form-group required">
+                <label class="col-sm-2 control-label" for="input-model">{{ entry_model }}</label>
+                <div class="col-sm-10">
+                  <input type="text" name="model" value="{{ model }}" placeholder="{{ entry_model }}" id="input-model" class="form-control"/>
+                  {% if error_model %}
+                    <div class="text-danger">{{ error_model }}</div>
+                  {% endif %}</div>
+            </div>
+
+            <div class="form-group required" style="display:none;">
               <label class="col-sm-2 control-label" for="input-name{{ language.language_id }}">{{ entry_name }}</label>
               <div class="col-sm-10">
                 <input type="text" name="product_description[{{ language.language_id }}][name]" value="{{ product_description[language.language_id] ? product_description[language.language_id].name }}" placeholder="{{ entry_name }}" id="input-name{{ language.language_id }}" class="form-control"/>
@@ -41,7 +58,7 @@
                 <textarea name="product_description[{{ language.language_id }}][description]" placeholder="{{ entry_description }}" id="input-description{{ language.language_id }}" data-toggle="summernote" data-lang="{{ summernote }}" class="form-control">{{ product_description[language.language_id] ? product_description[language.language_id].description }}</textarea>
               </div>
             </div>
-            <div class="form-group required">
+            <div class="form-group required" style="display:none;">
               <label class="col-sm-2 control-label" for="input-meta-title{{ language.language_id }}">{{ entry_meta_title }}</label>
               <div class="col-sm-10">
                 <input type="text" name="product_description[{{ language.language_id }}][meta_title]" value="{{ product_description[language.language_id] ? product_description[language.language_id].meta_title }}" placeholder="{{ entry_meta_title }}" id="input-meta-title{{ language.language_id }}" class="form-control"/>
@@ -76,22 +93,6 @@
                 </div>
               </div>
 
-              <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-manufacturer"><span data-toggle="tooltip" title="{{ help_manufacturer }}">{{ entry_manufacturer }}</span></label>
-                <div class="col-sm-10">
-                  <input type="text" name="manufacturer" value="{{ manufacturer }}" placeholder="{{ entry_manufacturer }}" id="input-manufacturer" class="form-control"/> <input type="hidden" name="manufacturer_id" value="{{ manufacturer_id }}"/>
-                </div>
-              </div>
-
-
-              <div class="form-group required">
-                <label class="col-sm-2 control-label" for="input-model">{{ entry_model }}</label>
-                <div class="col-sm-10">
-                  <input type="text" name="model" value="{{ model }}" placeholder="{{ entry_model }}" id="input-model" class="form-control"/>
-                  {% if error_model %}
-                    <div class="text-danger">{{ error_model }}</div>
-                  {% endif %}</div>
-              </div>
 
               <div class="form-group">
                 <label class="col-sm-2 control-label" for="input-network">Network</label>
@@ -147,7 +148,7 @@
                 </div>
               </div>
               
-              <div class="form-group">
+              <div class="form-group" style="display:none;">
                 <label class="col-sm-2 control-label" for="input-date-available">{{ entry_date_available }}</label>
                 <div class="col-sm-3">
                   <div class="input-group date">
@@ -157,7 +158,7 @@
                 </div>
               </div>
 
-              <div class="form-group">
+              <div class="form-group" style="display:none;">
                 <label class="col-sm-2 control-label" for="input-length">{{ entry_dimension }}</label>
                 <div class="col-sm-10">
                   <div class="row">
@@ -187,7 +188,7 @@
                   </select>
                 </div>
               </div>
-              <div class="form-group">
+              <div class="form-group" style="display:none;">
                 <label class="col-sm-2 control-label" for="input-weight">{{ entry_weight }}</label>
                 <div class="col-sm-10">
                   <input type="text" name="weight" value="{{ weight }}" placeholder="{{ entry_weight }}" id="input-weight" class="form-control"/>
