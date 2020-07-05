@@ -464,7 +464,7 @@ class ControllerServiceSell extends Controller {
 
 		foreach($prices as $val){
 
-			if ((int) $val < 1) {
+			if ((int) $val < 0) {
 				$this->error['prices'] = $this->language->get('error_prices');
 			}
 		}
