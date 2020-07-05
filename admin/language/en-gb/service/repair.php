@@ -104,4 +104,4 @@ $_['help_tag']               = 'Comma separated';
 $_['error_warning']          = 'Warning: Please check the form carefully for errors!';
 $_['error_permission']       = 'Warning: You do not have permission to modify repiar rates!';
 $_['error_product_id']       = 'Select a product!';
-$_['error_prices']           = 'Enter price !';
+$_['error_prices']           = 'Enter price!';
