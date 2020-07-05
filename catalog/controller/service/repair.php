@@ -1,5 +1,5 @@
 <?php
-class ControllerOperationSell extends Controller {
+class ControllerServiceRepair extends Controller {
 	private $error = array();
 
 	public function index() {
@@ -12,9 +12,30 @@ class ControllerOperationSell extends Controller {
 			'href' => $this->url->link('common/home')
 		);
 
-		$data['action'] = '';
-
 		$data['text_your_details'] = "Enter following details";
+
+		$data['problems'] = [
+			[
+				'key' => 'network_issue',
+				'value' => 'Network problem'
+			],
+			[
+				'key' => 'charging_issue',
+				'value' => 'Not charging'
+			],
+			[
+				'key' => 'broken_screen',
+				'value' => 'Broken screen'
+			],
+			[
+				'key' => 'sound_problem',
+				'value' => 'Sound/Speaker not working'
+			],
+			[
+				'key' => 'mic_issue',
+				'value' => 'Mic not working on calls'
+			]
+		];
 
 		$this->load->model('catalog/category');
 		$data['column_left'] = $this->load->controller('common/column_left');
@@ -24,7 +45,7 @@ class ControllerOperationSell extends Controller {
 		$data['footer'] = $this->load->controller('common/footer');
 		$data['header'] = $this->load->controller('common/header');
 
-		$this->response->setOutput($this->load->view('operation/sell', $data));
+		$this->response->setOutput($this->load->view('service/repair', $data));
 		
 	}
 

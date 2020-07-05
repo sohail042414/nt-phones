@@ -1,9 +1,9 @@
 <?php
-class ControllerOperationRepair extends Controller {
+class ControllerserviceSell extends Controller {
 	private $error = array();
 
 	public function index() {
-		$this->load->language('operation/sell');
+		$this->load->language('service/sell');
 
 		$data['breadcrumbs'] = array();
 
@@ -12,30 +12,9 @@ class ControllerOperationRepair extends Controller {
 			'href' => $this->url->link('common/home')
 		);
 
-		$data['text_your_details'] = "Enter following details";
+		$data['action'] = '';
 
-		$data['problems'] = [
-			[
-				'key' => 'network_issue',
-				'value' => 'Network problem'
-			],
-			[
-				'key' => 'charging_issue',
-				'value' => 'Not charging'
-			],
-			[
-				'key' => 'broken_screen',
-				'value' => 'Broken screen'
-			],
-			[
-				'key' => 'sound_problem',
-				'value' => 'Sound/Speaker not working'
-			],
-			[
-				'key' => 'mic_issue',
-				'value' => 'Mic not working on calls'
-			]
-		];
+		$data['text_your_details'] = "Enter following details";
 
 		$this->load->model('catalog/category');
 		$data['column_left'] = $this->load->controller('common/column_left');
@@ -45,7 +24,7 @@ class ControllerOperationRepair extends Controller {
 		$data['footer'] = $this->load->controller('common/footer');
 		$data['header'] = $this->load->controller('common/header');
 
-		$this->response->setOutput($this->load->view('operation/repair', $data));
+		$this->response->setOutput($this->load->view('service/sell', $data));
 		
 	}
 

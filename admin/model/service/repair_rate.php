@@ -22,8 +22,6 @@ class ModelServiceRepairRate extends Model {
 	}
 
 
-
-
 	public function deleteRepairRate($repair_rate_id) {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "repair_rate WHERE repair_rate_id = '" . (int)$repair_rate_id . "'");
 	}
@@ -53,7 +51,7 @@ class ModelServiceRepairRate extends Model {
 
 
 	public function getTotalRepairRates($data = array()) {
-		$sql = "SELECT COUNT(DISTINCT i.repair_rate_id) AS total FROM " . DB_PREFIX . "repair_rate i ";
+		$sql = "SELECT COUNT(DISTINCT product_id) AS total FROM " . DB_PREFIX . "repair_rate";
 
 		/*
 		if (!empty($data['filter_title'])) {

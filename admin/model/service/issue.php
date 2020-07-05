@@ -2,7 +2,7 @@
 class ModelServiceIssue extends Model {
 	public function addIssue($data) {
 		
-		$this->db->query("INSERT INTO " . DB_PREFIX . "issue SET title = '" . $this->db->escape($data['title']) . "',description = '" . $this->db->escape($data['description'])."'");
+		$this->db->query("INSERT INTO " . DB_PREFIX . "issue SET title = '" . $this->db->escape($data['title']) . "',description = '" . $this->db->escape($data['description'])."',image= '".$data['image']."'");
 		
 		$product_id = $this->db->getLastId();
 
@@ -10,7 +10,7 @@ class ModelServiceIssue extends Model {
 	}
 
 	public function editIssue($issue_id, $data) {	
-		$this->db->query("UPDATE " . DB_PREFIX . "issue SET title = '" . $this->db->escape($data['title']) . "',description = '" . $this->db->escape($data['description'])."' WHERE issue_id = '" . (int)$issue_id . "'");
+		$this->db->query("UPDATE " . DB_PREFIX . "issue SET title = '" . $this->db->escape($data['title']) . "',description = '" . $this->db->escape($data['description'])."',image= '".$data['image']."' WHERE issue_id = '" . (int)$issue_id . "'");
 	}
 
 

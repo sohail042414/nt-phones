@@ -41,8 +41,8 @@ class ControllerCommonMenu extends Controller {
 			}
 		}
 
-		$data['sell_href'] = $this->url->link('operation/sell');
-		$data['repair_href'] = $this->url->link('operation/repair');
+		$data['sell_href'] = $this->url->link('service/sell');
+		$data['repair_href'] = $this->url->link('service/repair');
 
 		return $this->load->view('common/menu', $data);
 	}

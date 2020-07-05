@@ -1,28 +1,28 @@
 <?php
-class ControllerServiceIssues extends Controller {
+class ControllerServiceGrade extends Controller {
 
 	private $error = array();
 
 	public function index() {
-		$this->load->language('service/issue');
+		$this->load->language('service/grade');
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
-		$this->load->model('service/issue');
+		$this->load->model('service/grade');
 
 		$this->getList();
 	}
 
 	public function add() {
-		$this->load->language('service/issue');
+		$this->load->language('service/grade');
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
-		$this->load->model('service/issue');
+		$this->load->model('service/grade');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
 			
-			$this->model_service_issue->addIssue($this->request->post);
+			$this->model_service_grade->addGrade($this->request->post);
 
 			$this->session->data['success'] = $this->language->get('text_success');
 
@@ -44,7 +44,7 @@ class ControllerServiceIssues extends Controller {
 				$url .= '&page=' . $this->request->get['page'];
 			}
 
-			$this->response->redirect($this->url->link('service/issues', 'user_token=' . $this->session->data['user_token'] . $url, true));
+			$this->response->redirect($this->url->link('service/grade', 'user_token=' . $this->session->data['user_token'] . $url, true));
 		}
 
 		$this->getForm();
@@ -52,14 +52,14 @@ class ControllerServiceIssues extends Controller {
 
 	public function edit() {
 
-		$this->load->language('service/issue');
+		$this->load->language('catalog/product');
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
-		$this->load->model('service/issue');
+		$this->load->model('service/grade');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
-			$this->model_service_issue->editIssue($this->request->get['issue_id'], $this->request->post);
+			$this->model_service_grade->editGrade($this->request->get['grade_id'], $this->request->post);
 
 			$this->session->data['success'] = $this->language->get('text_success');
 
@@ -81,7 +81,7 @@ class ControllerServiceIssues extends Controller {
 				$url .= '&page=' . $this->request->get['page'];
 			}
 
-			$this->response->redirect($this->url->link('service/issues', 'user_token=' . $this->session->data['user_token'] . $url, true));
+			$this->response->redirect($this->url->link('service/grade', 'user_token=' . $this->session->data['user_token'] . $url, true));
 		}
 
 		$this->getForm();
@@ -89,15 +89,18 @@ class ControllerServiceIssues extends Controller {
 
 	public function delete() {
 
-		$this->load->language('service/issue');
+		$this->load->language('service/grade');
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
-		$this->load->model('service/issue');
+		$this->load->model('service/grade');
 
 		if (isset($this->request->post['selected']) && $this->validateDelete()) {
-			foreach ($this->request->post['selected'] as $issue_id) {
-				$this->model_service_issue->deleteIssue($issue_id);
+
+			$selected = $this->request->post['selected']; 
+
+			foreach ($this->request->post['selected'] as $grade_id) {
+				$this->model_service_grade->deleteGrade($grade_id);
 			}
 
 			$this->session->data['success'] = $this->language->get('text_success');
@@ -120,7 +123,61 @@ class ControllerServiceIssues extends Controller {
 				$url .= '&page=' . $this->request->get['page'];
 			}
 
-			$this->response->redirect($this->url->link('service/issues', 'user_token=' . $this->session->data['user_token'] . $url, true));
+			$this->response->redirect($this->url->link('service/grade', 'user_token=' . $this->session->data['user_token'] . $url, true));
+		}
+
+		$this->getList();
+	}
+
+	public function copy() {
+		$this->load->language('catalog/product');
+
+		$this->document->setTitle($this->language->get('heading_title'));
+
+		$this->load->model('catalog/product');
+
+		if (isset($this->request->post['selected']) && $this->validateCopy()) {
+			foreach ($this->request->post['selected'] as $product_id) {
+				$this->model_catalog_product->copyProduct($product_id);
+			}
+
+			$this->session->data['success'] = $this->language->get('text_success');
+
+			$url = '';
+
+			if (isset($this->request->get['filter_title'])) {
+				$url .= '&filter_title=' . urlencode(html_entity_decode($this->request->get['filter_title'], ENT_QUOTES, 'UTF-8'));
+			}
+
+			if (isset($this->request->get['filter_model'])) {
+				$url .= '&filter_model=' . urlencode(html_entity_decode($this->request->get['filter_model'], ENT_QUOTES, 'UTF-8'));
+			}
+
+			if (isset($this->request->get['filter_price'])) {
+				$url .= '&filter_price=' . $this->request->get['filter_price'];
+			}
+
+			if (isset($this->request->get['filter_quantity'])) {
+				$url .= '&filter_quantity=' . $this->request->get['filter_quantity'];
+			}
+
+			if (isset($this->request->get['filter_status'])) {
+				$url .= '&filter_status=' . $this->request->get['filter_status'];
+			}
+
+			if (isset($this->request->get['sort'])) {
+				$url .= '&sort=' . $this->request->get['sort'];
+			}
+
+			if (isset($this->request->get['order'])) {
+				$url .= '&order=' . $this->request->get['order'];
+			}
+
+			if (isset($this->request->get['page'])) {
+				$url .= '&page=' . $this->request->get['page'];
+			}
+
+			$this->response->redirect($this->url->link('catalog/product', 'user_token=' . $this->session->data['user_token'] . $url, true));
 		}
 
 		$this->getList();
@@ -158,21 +215,6 @@ class ControllerServiceIssues extends Controller {
 			$url .= '&filter_title=' . urlencode(html_entity_decode($this->request->get['filter_title'], ENT_QUOTES, 'UTF-8'));
 		}
 
-		if (isset($this->request->get['filter_model'])) {
-			$url .= '&filter_model=' . urlencode(html_entity_decode($this->request->get['filter_model'], ENT_QUOTES, 'UTF-8'));
-		}
-
-		if (isset($this->request->get['filter_price'])) {
-			$url .= '&filter_price=' . $this->request->get['filter_price'];
-		}
-
-		if (isset($this->request->get['filter_quantity'])) {
-			$url .= '&filter_quantity=' . $this->request->get['filter_quantity'];
-		}
-
-		if (isset($this->request->get['filter_status'])) {
-			$url .= '&filter_status=' . $this->request->get['filter_status'];
-		}
 
 		if (isset($this->request->get['order'])) {
 			$url .= '&order=' . $this->request->get['order'];
@@ -191,13 +233,13 @@ class ControllerServiceIssues extends Controller {
 
 		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('service/issues', 'user_token=' . $this->session->data['user_token'] . $url, true)
+			'href' => $this->url->link('service/grade', 'user_token=' . $this->session->data['user_token'] . $url, true)
 		);
 
 		$data['heading_title'] = $this->language->get('heading_title');
 		
-		$data['add'] = $this->url->link('service/issues/add', 'user_token=' . $this->session->data['user_token'] . $url, true);
-		$data['delete'] = $this->url->link('service/issues/delete', 'user_token=' . $this->session->data['user_token'] . $url, true);
+		$data['add'] = $this->url->link('service/grade/add', 'user_token=' . $this->session->data['user_token'] . $url, true);
+		$data['delete'] = $this->url->link('service/grade/delete', 'user_token=' . $this->session->data['user_token'] . $url, true);
 
 		$data['issues'] = array();
 
@@ -209,26 +251,19 @@ class ControllerServiceIssues extends Controller {
 			'limit'           => $this->config->get('config_limit_admin')
 		);
 
-		$this->load->model('tool/image');
+		//$this->load->model('tool/image');
 
-		$issue_total = $this->model_service_issue->getTotalIssues($filter_data);
+		$issue_total = $this->model_service_grade->getTotalGrades($filter_data);
 
-		$results = $this->model_service_issue->getIssues($filter_data);
+		$results = $this->model_service_grade->getGrades($filter_data);
 
 		foreach ($results as $result) {
 
-			if (is_file(DIR_IMAGE . $result['image'])) {
-				$image = $this->model_tool_image->resize($result['image'], 40, 40);
-			} else {
-				$image = $this->model_tool_image->resize('no_image.png', 40, 40);
-			}
-
-			$data['issues'][] = array(
-				'issue_id' => $result['issue_id'],
+			$data['grades'][] = array(
+				'grade_id' => $result['grade_id'],
 				'title' => $result['title'],
 				'description'       => $result['description'],
-				'image' => $image,
-				'edit'       => $this->url->link('service/issues/edit', 'user_token=' . $this->session->data['user_token'] . '&issue_id=' . $result['issue_id'] . $url, true)
+				'edit'       => $this->url->link('service/grade/edit', 'user_token=' . $this->session->data['user_token'] . '&grade_id=' . $result['grade_id'] . $url, true)
 			);
 		}
 
@@ -271,7 +306,12 @@ class ControllerServiceIssues extends Controller {
 			$url .= '&page=' . $this->request->get['page'];
 		}
 
-		$data['sort_title'] = $this->url->link('service/issues', 'user_token=' . $this->session->data['user_token'] . '&sort=i.title' . $url, true);
+		$data['sort_title'] = $this->url->link('service/grade', 'user_token=' . $this->session->data['user_token'] . '&sort=i.title' . $url, true);
+		// $data['sort_model'] = $this->url->link('service/grades', 'user_token=' . $this->session->data['user_token'] . '&sort=p.model' . $url, true);
+		// $data['sort_price'] = $this->url->link('service/grades', 'user_token=' . $this->session->data['user_token'] . '&sort=p.price' . $url, true);
+		// $data['sort_quantity'] = $this->url->link('service/grades', 'user_token=' . $this->session->data['user_token'] . '&sort=p.quantity' . $url, true);
+		// $data['sort_status'] = $this->url->link('service/grades', 'user_token=' . $this->session->data['user_token'] . '&sort=p.status' . $url, true);
+		// $data['sort_order'] = $this->url->link('service/grades', 'user_token=' . $this->session->data['user_token'] . '&sort=p.sort_order' . $url, true);
 
 		$url = '';
 
@@ -294,7 +334,7 @@ class ControllerServiceIssues extends Controller {
 		$pagination->total = $issue_total;
 		$pagination->page = $page;
 		$pagination->limit = $this->config->get('config_limit_admin');
-		$pagination->url = $this->url->link('service/issues', 'user_token=' . $this->session->data['user_token'] . $url . '&page={page}', true);
+		$pagination->url = $this->url->link('service/grades', 'user_token=' . $this->session->data['user_token'] . $url . '&page={page}', true);
 
 		$data['pagination'] = $pagination->render();
 
@@ -313,7 +353,7 @@ class ControllerServiceIssues extends Controller {
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');
 
-		$this->response->setOutput($this->load->view('service/issue_list', $data));
+		$this->response->setOutput($this->load->view('service/grade_list', $data));
 	}
 
 	protected function getForm() {
@@ -366,19 +406,19 @@ class ControllerServiceIssues extends Controller {
 
 		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('service/issues', 'user_token=' . $this->session->data['user_token'] . $url, true)
+			'href' => $this->url->link('service/grades', 'user_token=' . $this->session->data['user_token'] . $url, true)
 		);
 
-		if (!isset($this->request->get['issue_id'])) {
-			$data['action'] = $this->url->link('service/issues/add', 'user_token=' . $this->session->data['user_token'] . $url, true);
+		if (!isset($this->request->get['grade_id'])) {
+			$data['action'] = $this->url->link('service/grade/add', 'user_token=' . $this->session->data['user_token'] . $url, true);
 		} else {
-			$data['action'] = $this->url->link('service/issues/edit', 'user_token=' . $this->session->data['user_token'] . '&issue_id=' . $this->request->get['issue_id'] . $url, true);
+			$data['action'] = $this->url->link('service/grade/edit', 'user_token=' . $this->session->data['user_token'] . '&grade_id=' . $this->request->get['grade_id'] . $url, true);
 		}
 
-		$data['cancel'] = $this->url->link('service/issues', 'user_token=' . $this->session->data['user_token'] . $url, true);
+		$data['cancel'] = $this->url->link('service/grades', 'user_token=' . $this->session->data['user_token'] . $url, true);
 
-		if (isset($this->request->get['issue_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
-			$issue_info = $this->model_service_issue->getIssue($this->request->get['issue_id']);
+		if (isset($this->request->get['grade_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
+			$issue_info = $this->model_service_grade->getGrade($this->request->get['grade_id']);
 		}
 
 		$data['user_token'] = $this->session->data['user_token'];
@@ -398,46 +438,17 @@ class ControllerServiceIssues extends Controller {
 		} else {
 			$data['description'] = '';
 		}
-
-
-		$this->load->model('tool/image');
-
-
-
-		if (isset($this->request->post['image']) && is_file(DIR_IMAGE . $this->request->post['image'])) {
-			$data['thumb'] = $this->model_tool_image->resize($this->request->post['image'], 100, 100);
-		} elseif (!empty($issue_info) && is_file(DIR_IMAGE . $issue_info['image'])) {
-			$data['thumb'] = $this->model_tool_image->resize($issue_info['image'], 100, 100);
-		} else {
-			$data['thumb'] = $this->model_tool_image->resize('no_image.png', 100, 100);
-		}
-
-		// if ($issue_info['image']) {
-		// 	$data['thumb'] = $this->model_tool_image->resize($issue_info['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_thumb_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_thumb_height'));
-		// } else {
-		// 	$data['thumb'] = '';
-		// }
-
-		if (isset($this->request->post['image'])) {
-			$data['image'] = $this->request->post['image'];
-		} elseif (!empty($issue_info)) {
-			$data['image'] = $issue_info['image'];
-		} else {
-			$data['image'] = '';
-		}
 		
-
-
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');
 
-		$this->response->setOutput($this->load->view('service/issue_form', $data));
+		$this->response->setOutput($this->load->view('service/grade_form', $data));
 	}
 
 	protected function validateForm() {
 
-		if (!$this->user->hasPermission('modify', 'service/issues')) {
+		if (!$this->user->hasPermission('modify', 'service/grade')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
@@ -453,13 +464,21 @@ class ControllerServiceIssues extends Controller {
 	}
 
 	protected function validateDelete() {
-		if (!$this->user->hasPermission('modify', 'service/issues')) {
+
+		if (!$this->user->hasPermission('modify', 'service/grade')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
 		return !$this->error;
 	}
 
+	protected function validateCopy() {
+		if (!$this->user->hasPermission('modify', 'catalog/product')) {
+			$this->error['warning'] = $this->language->get('error_permission');
+		}
+
+		return !$this->error;
+	}
 
 	public function autocomplete() {
 		$json = array();

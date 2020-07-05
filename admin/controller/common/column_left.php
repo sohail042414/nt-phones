@@ -147,22 +147,20 @@ class ControllerCommonColumnLeft extends Controller {
 					'children' => array()		
 				);
 			}
-			/*
-
+			
 			//custom section
-			if ($this->user->hasPermission('access', 'service/repair')) {
+			if ($this->user->hasPermission('access', 'service/grade')) {
 				$service[] = array(
-					'name'	   => "Repair",
-					'href'     => $this->url->link('service/repair', 'user_token=' . $this->session->data['user_token'], true),
+					'name'	   => "Grades/Conditions",
+					'href'     => $this->url->link('service/grade', 'user_token=' . $this->session->data['user_token'], true),
 					'children' => array()		
 				);
 			}
-			*/
 
 			//custom section
 			if ($this->user->hasPermission('access', 'service/sell')) {
 				$service[] = array(
-					'name'	   => "Sell",
+					'name'	   => "Sell Rates",
 					'href'     => $this->url->link('service/sell', 'user_token=' . $this->session->data['user_token'], true),
 					'children' => array()		
 				);
