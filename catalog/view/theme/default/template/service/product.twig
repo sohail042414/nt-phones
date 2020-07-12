@@ -1,0 +1,56 @@
+{{ header }}
+<div id="repair-product" class="container">
+  <ul class="breadcrumb">
+    {% for breadcrumb in breadcrumbs %}
+    <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+    {% endfor %}
+  </ul>
+
+  <div class="row">
+     <div id="content" class="col-sm-12 col-lg-12 col-md-12">
+      {{ content_top }}
+      <div class="row">
+        <div class="col-sm-12 col-lg-12 col-md-12"> 
+          {% if thumb or images %}
+          <h1>{{ heading_title }}</h1>
+          <ul class="thumbnails">
+              {% if thumb %}
+                <li><a class="thumbnail" href="{{ popup }}" title="{{ heading_title }}"><img src="{{ thumb }}" title="{{ heading_title }}" alt="{{ heading_title }}" /></a></li>
+              {% endif %}
+          </ul>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="row"> 
+        {% for issue in issues %}
+        <div class="product-layout product-grid col-lg-3 col-md-3 col-sm-6 col-xs-12">
+          <div class="product-thumb">
+            <div class="image">
+            <a href="JavaScript:Void(0);"><img src="{{ issue.image }}" alt="{{ issue.image }}" title="{{ issue.title }}" class="img-responsive" /></a></div>
+            <div>
+            <div>
+                <div class="caption" style="min-height: 30px;">
+                  <h4><a href="JavaScript:Void(0);">{{ issue.title }}</a></h4>
+                  <p class="price">
+                  {{ issue.price }}                  
+                  </p>              
+                </div>
+              <div class="button-group">
+                <button style="width:100%" type="button" onclick="cart.add('{{ issue.product_id }}', '1','{{ issue.issue_id }}');"><i class="fa fa-shopping-cart"></i> <span class="hidden-xs hidden-sm hidden-md">{{ button_repair }}</span></button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %} 
+      </div>
+    
+      <div class="row"> 
+      {{ content_bottom }}
+      </div>
+    </div>
+  </div>
+</div> 
+
+{{ footer }} 

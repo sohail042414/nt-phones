@@ -45,3 +45,10 @@ $_['error_meta_title']       = 'Meta Title must be greater than 1 and less than 
 $_['error_keyword']          = 'SEO URL already in use!';
 $_['error_unique']           = 'SEO URL must be unique!';
 $_['error_parent']           = 'The parent category you have chosen is a child of the current one!';
+
+//
+$_['entry_repair']              = 'Repiar';
+$_['entry_sell']              = 'Sell';
+
+$_['help_repair']               = 'List this category under repiar?';
+$_['help_sell']               = 'List this category under sell?';

@@ -1,5 +1,6 @@
 <?php
 class ModelServiceRepairRate extends Model {
+	
 	public function addRepairRate($data) {
 
 		foreach($data['prices'] as $issue_id => $price){
@@ -10,7 +11,7 @@ class ModelServiceRepairRate extends Model {
 		return true;
 	}
 
-	public function editRepairRate($product_id,$data) {	
+	public function editRepairRate($data) {	
 
 		$this->db->query("DELETE FROM " . DB_PREFIX . "repair_rate WHERE product_id =" . (int)$data['product_id']);
 
@@ -34,7 +35,10 @@ class ModelServiceRepairRate extends Model {
 
 
 	public function getProductRates($product_id) {
-		$sql = "SELECT * FROM " . DB_PREFIX . "repair_rate where product_id =".(int)$product_id;
+		
+		$sql = "SELECT DISTINCT (i.issue_id),r.product_id, r.price, i.title,i.image,i.description FROM " . DB_PREFIX . "repair_rate r JOIN " . DB_PREFIX . "issue i ON r.issue_id = i.issue_id where price > 0 AND product_id =".(int)$product_id;
+
+		//echo $sql; exit;
 
 		$query = $this->db->query($sql);
 

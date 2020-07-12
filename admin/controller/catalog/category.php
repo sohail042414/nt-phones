@@ -457,6 +457,22 @@ class ControllerCatalogCategory extends Controller {
 			$data['top'] = 0;
 		}
 
+		if (isset($this->request->post['repair'])) {
+			$data['repair'] = $this->request->post['repair'];
+		} elseif (!empty($category_info)) {
+			$data['repair'] = $category_info['repair'];
+		} else {
+			$data['repair'] = 0;
+		}
+
+		if (isset($this->request->post['sell'])) {
+			$data['sell'] = $this->request->post['sell'];
+		} elseif (!empty($category_info)) {
+			$data['sell'] = $category_info['sell'];
+		} else {
+			$data['sell'] = 0;
+		}
+
 		if (isset($this->request->post['column'])) {
 			$data['column'] = $this->request->post['column'];
 		} elseif (!empty($category_info)) {

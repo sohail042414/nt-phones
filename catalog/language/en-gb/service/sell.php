@@ -1,12 +1,12 @@
 <?php
 // Heading
-$_['heading_title']          = 'Repair Rates';
+$_['heading_title']          = 'Sell Rates';
 
 // Text
-$_['text_success']           = 'Success: You have modified Repair Rates!';
-$_['text_list']              = 'Repair Rates List';
-$_['text_add']               = 'Add Repair Rate';
-$_['text_edit']              = 'Edit Repair Rate';
+$_['text_success']           = 'Success: You have modified Sell Rates!';
+$_['text_list']              = 'Sell Rates List';
+$_['text_add']               = 'Add Sell Rate';
+$_['text_edit']              = 'Edit Sell Rate';
 $_['text_filter']            = 'Filter';
 $_['text_plus']              = '+';
 $_['text_minus']             = '-';
@@ -18,7 +18,7 @@ $_['text_amount']            = 'Fixed Amount';
 $_['text_keyword']           = 'Do not use spaces, instead replace spaces with - and make sure the SEO URL is globally unique.';
 
 // Column
-$_['column_name']            = 'Repair Rate Title';
+$_['column_name']            = 'Sell Rate Title';
 $_['column_model']           = 'Model';
 $_['column_image']           = 'Image';
 $_['column_price']           = 'Price';
@@ -104,4 +104,4 @@ $_['help_tag']               = 'Comma separated';
 $_['error_warning']          = 'Warning: Please check the form carefully for errors!';
 $_['error_permission']       = 'Warning: You do not have permission to modify repiar rates!';
 $_['error_product_id']       = 'Select a product!';
-$_['error_prices']           = 'Enter price!';
+$_['error_prices']           = 'Enter price !';

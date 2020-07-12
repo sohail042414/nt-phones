@@ -58,6 +58,19 @@ class ControllerCheckoutCart extends Controller {
 			$products = $this->cart->getProducts();
 
 			foreach ($products as $product) {
+				
+				$issue_title = '';
+				$issue_id = 0;
+				$issue_price = 0;
+
+				if((int)$product['issue_id'] > 0){
+					$issue_id = (int) $product['issue_id'];
+					$this->load->model('service/issue');
+					$issue = $this->model_service_issue->getProductIssue($product['product_id'], $product['issue_id']);
+					$issue_title = $issue['title'];
+					$issue_price = $issue['price'];
+				}
+				
 				$product_total = 0;
 
 				foreach ($products as $product_2) {
@@ -70,8 +83,10 @@ class ControllerCheckoutCart extends Controller {
 					$data['error_warning'] = sprintf($this->language->get('error_minimum'), $product['name'], $product['minimum']);
 				}
 
-				if ($product['image']) {
-					$image = $this->model_tool_image->resize($product['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_cart_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_cart_height'));
+				if($issue_id > 0){
+					$image = $this->model_tool_image->resize($issue['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_cart_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_cart_height'));
+				}else if ($product['image']) {					
+					$image = $this->model_tool_image->resize($product['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_cart_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_cart_height'));					
 				} else {
 					$image = '';
 				}
@@ -99,10 +114,19 @@ class ControllerCheckoutCart extends Controller {
 
 				// Display prices
 				if ($this->customer->isLogged() || !$this->config->get('config_customer_price')) {
-					$unit_price = $this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax'));
-					
-					$price = $this->currency->format($unit_price, $this->session->data['currency']);
-					$total = $this->currency->format($unit_price * $product['quantity'], $this->session->data['currency']);
+
+					if($issue_id > 0){
+
+						$unit_price = $issue_price;					
+						$price = $this->currency->format($unit_price, $this->session->data['currency']);
+						$total = $this->currency->format($unit_price * $product['quantity'], $this->session->data['currency']);
+						
+					}else{
+						$unit_price = $this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax'));					
+						$price = $this->currency->format($unit_price, $this->session->data['currency']);
+						$total = $this->currency->format($unit_price * $product['quantity'], $this->session->data['currency']);
+					}
+
 				} else {
 					$price = false;
 					$total = false;
@@ -130,10 +154,13 @@ class ControllerCheckoutCart extends Controller {
 					}
 				}
 
+
+
 				$data['products'][] = array(
 					'cart_id'   => $product['cart_id'],
 					'thumb'     => $image,
-					'name'      => $product['name'],
+					//'name'      => $product['name'],
+					'name'      => !empty($issue_title) ? $product['name']. " ,  Repair ( ".$issue_title." )" : $product['name'],
 					'model'     => $product['model'],
 					'option'    => $option_data,
 					'recurring' => $recurring,
@@ -270,6 +297,12 @@ class ControllerCheckoutCart extends Controller {
 			$product_id = 0;
 		}
 
+		if (isset($this->request->post['issue_id'])) {
+			$issue_id = (int)$this->request->post['issue_id'];
+		} else {
+			$issue_id = 0;
+		}
+
 		$this->load->model('catalog/product');
 
 		$product_info = $this->model_catalog_product->getProduct($product_id);
@@ -316,7 +349,7 @@ class ControllerCheckoutCart extends Controller {
 			}
 
 			if (!$json) {
-				$this->cart->add($this->request->post['product_id'], $quantity, $option, $recurring_id);
+				$this->cart->add($this->request->post['product_id'], $quantity, $option, $recurring_id,$issue_id);
 
 				$json['success'] = sprintf($this->language->get('text_success'), $this->url->link('product/product', 'product_id=' . $this->request->post['product_id']), $product_info['name'], $this->url->link('checkout/cart'));
 

@@ -1,13 +1,10 @@
 {{ header }}
-<div id="account-register" class="container">
+<div id="product-category" class="container">
   <ul class="breadcrumb">
     {% for breadcrumb in breadcrumbs %}
     <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
     {% endfor %}
   </ul>
-  {% if error_warning %}
-  <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}</div>
-  {% endif %}
   <div class="row">{{ column_left }}
     {% if column_left and column_right %}
     {% set class = 'col-sm-6' %}
@@ -17,84 +14,31 @@
     {% set class = 'col-sm-12' %}
     {% endif %}
     <div id="content" class="{{ class }}">{{ content_top }}
-      <h1>{{ heading_title }}</h1>
-      <p>{{ text_account_already }}</p>
-      <form action="{{ action }}" method="post" enctype="multipart/form-data" class="form-horizontal">
-        <fieldset id="account">
-          <legend>{{ text_your_details }}</legend>
+      <h2>{{ heading_title }}</h2>
 
-          <div class="form-group required">
-            <label class="col-sm-2 control-label" for="input-brand">Brand</label>
-            <div class="col-sm-10">
-              <input type="text" name="brand" value="{{ brand }}" placeholder="{{ entry_brand }}" id="input-brand" class="form-control" />
-              {% if error_brand %}
-              <div class="text-danger">{{ error_brand }}</div>
-              {% endif %} 
+      {% if categories %}
+
+      <div class="row"> {% for category in categories %}
+        <div class="product-layout product-grid col-lg-3 col-md-3 col-sm-6 col-xs-12">
+          <div class="product-thumb">
+            <div class="image">
+              <a href="{{ category.href }}">
+              <img src="{{ category.image }}" alt="{{ category.name }}" title="{{ category.name }}" class="img-responsive" />
+              </a>
             </div>
           </div>
-
-          <div class="form-group required">
-            <label class="col-sm-2 control-label" for="input-model">Model</label>
-            <div class="col-sm-10">
-              <input type="text" name="model" value="{{ model }}" placeholder="{{ entry_model }}" id="input-model" class="form-control" />
-              {% if error_model %}
-              <div class="text-danger">{{ error_model }}</div>
-              {% endif %} 
+          <div>
+            <div class="caption">
+                <h4>
+                <a href="{{ category.href }}">{{ category.name }}</a>
+                </h4>
             </div>
           </div>
-
-          <div class="form-group required">
-            <label class="col-sm-2 control-label" for="input-memory">Memory</label>
-            <div class="col-sm-10">
-              <input type="text" name="memory" value="{{ memory }}" placeholder="{{ entry_memory }}" id="input-memory" class="form-control" />
-              {% if error_model %}
-              <div class="text-danger">{{ error_memory }}</div>
-              {% endif %} 
-            </div>
-          </div>
-
-          <div class="form-group required">
-            <label class="col-sm-2 control-label" for="input-network">Network</label>
-            <div class="col-sm-10">
-              <input type="text" name="network" value="{{ network }}" placeholder="{{ entry_network }}" id="input-network" class="form-control" />
-              {% if error_network %}
-              <div class="text-danger">{{ error_network }}</div>
-              {% endif %} 
-            </div>
-          </div>
-
-
-          <div class="form-group required">
-            <label class="col-sm-2 control-label" for="input-condition">Condition</label>
-            <div class="col-sm-10">
-              <input type="text" name="condition" value="{{ condition }}" placeholder="{{ entry_condition }}" id="input-condition" class="form-control" />
-              {% if error_condition %}
-              <div class="text-danger">{{ error_condition }}</div>
-              {% endif %} 
-            </div>
-          </div>
-
-          <div class="form-group required">
-            <label class="col-sm-2 control-label" for="input-condition">Problem</label>
-            <div class="col-sm-10">
-              <select name="box" class="form-control">
-                {% for problem in problems %}
-                <option value="{{ problem.key }}">{{problem.value}}</option>
-                {% endfor %}
-              </select>
-              {% if error_condition %}
-              <div class="text-danger">{{ error_condition }}</div>
-              {% endif %} 
-            </div>
-          </div>
-
-        <div class="buttons">
-          <div class="pull-right">
-            <input type="submit" value="{{ button_continue }}" class="btn btn-primary" />
-          </div>
-        </div>        
-      </form>
+        </div>
+        {% endfor %} 
+      </div>
+      {% endif %}
       {{ content_bottom }}</div>
     {{ column_right }}</div>
 </div>
-<script type="text/javascript"><!--
+{{ footer }} 

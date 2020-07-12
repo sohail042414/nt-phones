@@ -22,7 +22,6 @@ class ControllerServiceRepair extends Controller {
 		$this->load->model('service/repair_rate');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
-			
 
 			$this->model_service_repair_rate->addRepairRate($this->request->post);
 
@@ -46,7 +45,7 @@ class ControllerServiceRepair extends Controller {
 				$url .= '&page=' . $this->request->get['page'];
 			}
 
-			$this->response->redirect($this->url->link('service/repair', 'user_token=' . $this->session->data['user_token'] . $url, true));
+			$this->response->redirect($this->url->link('service/repai', 'user_token=' . $this->session->data['user_token'] . $url, true));
 		}
 
 		$this->getForm();
@@ -61,7 +60,12 @@ class ControllerServiceRepair extends Controller {
 		$this->load->model('service/repair_rate');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
-			$this->model_service_repair_rate->editRepairRate($this->request->get['repair_rate_id'], $this->request->post);
+
+			// echo '<pre>';
+			// print_r($this->request->post);
+			// exit; 
+
+			$this->model_service_repair_rate->editRepairRate($this->request->get['product_id'], $this->request->post);
 
 			$this->session->data['success'] = $this->language->get('text_success');
 
@@ -83,7 +87,7 @@ class ControllerServiceRepair extends Controller {
 				$url .= '&page=' . $this->request->get['page'];
 			}
 
-			$this->response->redirect($this->url->link('service/repairs', 'user_token=' . $this->session->data['user_token'] . $url, true));
+			$this->response->redirect($this->url->link('service/repair', 'user_token=' . $this->session->data['user_token'] . $url, true));
 		}
 
 		$this->getForm();
@@ -388,10 +392,10 @@ class ControllerServiceRepair extends Controller {
 			'href' => $this->url->link('service/repair', 'user_token=' . $this->session->data['user_token'] . $url, true)
 		);
 
-		if (!isset($this->request->get['repair_rate_id'])) {
+		if (!isset($this->request->get['product_id'])) {
 			$data['action'] = $this->url->link('service/repair/add', 'user_token=' . $this->session->data['user_token'] . $url, true);
 		} else {
-			$data['action'] = $this->url->link('service/repair/edit', 'user_token=' . $this->session->data['user_token'] . '&repair_rate_id=' . $this->request->get['repair_rate_id'] . $url, true);
+			$data['action'] = $this->url->link('service/repair/edit', 'user_token=' . $this->session->data['user_token'] . '&product_id=' . $this->request->get['product_id'] . $url, true);
 		}
 
 		$data['cancel'] = $this->url->link('service/repair', 'user_token=' . $this->session->data['user_token'] . $url, true);

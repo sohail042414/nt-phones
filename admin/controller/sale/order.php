@@ -910,6 +910,10 @@ class ControllerSaleOrder extends Controller {
 			$products = $this->model_sale_order->getOrderProducts($this->request->get['order_id']);
 
 			foreach ($products as $product) {
+				// echo '<pre>';
+				// print_r($product);
+				// exit; 
+
 				$option_data = array();
 
 				$options = $this->model_sale_order->getOrderOptions($this->request->get['order_id'], $product['order_product_id']);

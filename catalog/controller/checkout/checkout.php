@@ -96,6 +96,8 @@ class ControllerCheckoutCheckout extends Controller {
 	}
 
 	public function country() {
+
+		// /echo "Herere"; exit;
 		$json = array();
 
 		$this->load->model('localisation/country');

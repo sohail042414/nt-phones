@@ -105,3 +105,4 @@ $_['error_warning']          = 'Warning: Please check the form carefully for err
 $_['error_permission']       = 'Warning: You do not have permission to modify repiar rates!';
 $_['error_product_id']       = 'Select a product!';
 $_['error_prices']           = 'Enter price!';
+$_['button_repair']           = 'Repair Now!';

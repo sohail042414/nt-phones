@@ -209,6 +209,24 @@ class ControllerCheckoutConfirm extends Controller {
 			$order_data['products'] = array();
 
 			foreach ($this->cart->getProducts() as $product) {
+
+				// echo '<pre>';
+				// print_r($product);
+				// exit; 
+
+				$issue_title = '';
+				$issue_id = 0;
+				$issue_price = 0;
+
+				if((int)$product['issue_id'] > 0){
+					$issue_id = (int) $product['issue_id'];
+					$this->load->model('service/issue');
+					$issue = $this->model_service_issue->getProductIssue($product['product_id'], $product['issue_id']);
+					$issue_title = $issue['title'];
+					$issue_price = $issue['price'];
+				}
+
+
 				$option_data = array();
 
 				foreach ($product['option'] as $option) {
@@ -225,7 +243,8 @@ class ControllerCheckoutConfirm extends Controller {
 
 				$order_data['products'][] = array(
 					'product_id' => $product['product_id'],
-					'name'       => $product['name'],
+					//'name'       => $product['name'],
+					'name'      => !empty($issue_title) ? $product['name']. " ,  Repair ( ".$issue_title." )" : $product['name'],
 					'model'      => $product['model'],
 					'option'     => $option_data,
 					'download'   => $product['download'],
@@ -234,7 +253,8 @@ class ControllerCheckoutConfirm extends Controller {
 					'price'      => $product['price'],
 					'total'      => $product['total'],
 					'tax'        => $this->tax->getTax($product['price'], $product['tax_class_id']),
-					'reward'     => $product['reward']
+					'reward'     => $product['reward'],
+					'issue_id'	 => $issue_id
 				);
 			}
 
@@ -323,11 +343,13 @@ class ControllerCheckoutConfirm extends Controller {
 
 			$this->session->data['order_id'] = $this->model_checkout_order->addOrder($order_data);
 
+
 			$this->load->model('tool/upload');
 
 			$data['products'] = array();
 
 			foreach ($this->cart->getProducts() as $product) {
+
 				$option_data = array();
 
 				foreach ($product['option'] as $option) {
@@ -374,7 +396,8 @@ class ControllerCheckoutConfirm extends Controller {
 				$data['products'][] = array(
 					'cart_id'    => $product['cart_id'],
 					'product_id' => $product['product_id'],
-					'name'       => $product['name'],
+					//'name'       => $product['name'],
+					'name'      => !empty($issue_title) ? $product['name']. " ,  Repair ( ".$issue_title." )" : $product['name'],
 					'model'      => $product['model'],
 					'option'     => $option_data,
 					'recurring'  => $recurring,
