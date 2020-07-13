@@ -1,6 +1,6 @@
 <?php
 // Heading
-$_['heading_title']     = 'Manufacturers';
+$_['heading_title']     = 'Companies (Manufacturers)';
 
 // Text
 $_['text_success']      = 'Success: You have modified manufacturers!';
@@ -13,12 +13,12 @@ $_['text_amount']       = 'Fixed Amount';
 $_['text_keyword']      = 'Do not use spaces, instead replace spaces with - and make sure the SEO URL is globally unique.';
 
 // Column
-$_['column_name']       = 'Manufacturer Name';
+$_['column_name']       = 'Company (Manufacturer)';
 $_['column_sort_order'] = 'Sort Order';
 $_['column_action']     = 'Action';
 
 // Entry
-$_['entry_name']        = 'Manufacturer Name';
+$_['entry_name']        = 'Company(Manufacturer) Name';
 $_['entry_store']       = 'Stores';
 $_['entry_keyword']     = 'Keyword';
 $_['entry_image']       = 'Image';

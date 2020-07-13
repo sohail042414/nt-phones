@@ -128,6 +128,55 @@ class ControllerCommonColumnLeft extends Controller {
 				);		
 			}
 			
+			$service = array();
+
+			//custom section
+			if ($this->user->hasPermission('access', 'service/issues')) {
+				$service[] = array(
+					'name'	   => "Issues",
+					'href'     => $this->url->link('service/issues', 'user_token=' . $this->session->data['user_token'], true),
+					'children' => array()		
+				);
+			}
+
+			//custom section
+			if ($this->user->hasPermission('access', 'service/repair')) {
+				$service[] = array(
+					'name'	   => "Repair Rates",
+					'href'     => $this->url->link('service/repair', 'user_token=' . $this->session->data['user_token'], true),
+					'children' => array()		
+				);
+			}
+			
+			//custom section
+			if ($this->user->hasPermission('access', 'service/grade')) {
+				$service[] = array(
+					'name'	   => "Grades/Conditions",
+					'href'     => $this->url->link('service/grade', 'user_token=' . $this->session->data['user_token'], true),
+					'children' => array()		
+				);
+			}
+
+			//custom section
+			if ($this->user->hasPermission('access', 'service/sell')) {
+				$service[] = array(
+					'name'	   => "Sell Rates",
+					'href'     => $this->url->link('service/sell', 'user_token=' . $this->session->data['user_token'], true),
+					'children' => array()		
+				);
+			}
+
+			//custom section
+			if ($service) {
+				$data['menus'][] = array(
+					'id'       => 'menu-service',
+					'icon'	   => 'fa-tags', 
+					'name'	   => 'Services(Repair/Sell)',
+					'href'     => '',
+					'children' => $service
+				);		
+			}
+
 			// Extension
 			$marketplace = array();
 			

@@ -535,7 +535,7 @@ class ControllerCatalogCategory extends Controller {
 			}
 		}
 
-		if ($this->request->post['category_seo_url']) {
+		if (isset($this->request->post['category_seo_url'])) {
 			$this->load->model('design/seo_url');
 			
 			foreach ($this->request->post['category_seo_url'] as $store_id => $language) {

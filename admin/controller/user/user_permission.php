@@ -45,6 +45,7 @@ class ControllerUserUserPermission extends Controller {
 	}
 
 	public function edit() {
+		
 		$this->load->language('user/user_group');
 
 		$this->document->setTitle($this->language->get('heading_title'));

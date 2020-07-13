@@ -1,12 +1,12 @@
 <?php
 // Heading
-$_['heading_title']          = 'Products';
+$_['heading_title']          = 'Issues';
 
 // Text
-$_['text_success']           = 'Success: You have modified products!';
-$_['text_list']              = 'Product List';
-$_['text_add']               = 'Add Product';
-$_['text_edit']              = 'Edit Product';
+$_['text_success']           = 'Success: You have modified issues!';
+$_['text_list']              = 'Issues List';
+$_['text_add']               = 'Add Issue';
+$_['text_edit']              = 'Edit Issue';
 $_['text_filter']            = 'Filter';
 $_['text_plus']              = '+';
 $_['text_minus']             = '-';
@@ -18,7 +18,7 @@ $_['text_amount']            = 'Fixed Amount';
 $_['text_keyword']           = 'Do not use spaces, instead replace spaces with - and make sure the SEO URL is globally unique.';
 
 // Column
-$_['column_name']            = 'Product Name';
+$_['column_name']            = 'Issue Title';
 $_['column_model']           = 'Model';
 $_['column_image']           = 'Image';
 $_['column_price']           = 'Price';

@@ -1,12 +1,12 @@
 <?php
 // Heading
-$_['heading_title']          = 'Products';
+$_['heading_title']          = 'Repair Rates';
 
 // Text
-$_['text_success']           = 'Success: You have modified products!';
-$_['text_list']              = 'Product List';
-$_['text_add']               = 'Add Product';
-$_['text_edit']              = 'Edit Product';
+$_['text_success']           = 'Success: You have modified Repair Rates!';
+$_['text_list']              = 'Repair Rates List';
+$_['text_add']               = 'Add Repair Rate';
+$_['text_edit']              = 'Edit Repair Rate';
 $_['text_filter']            = 'Filter';
 $_['text_plus']              = '+';
 $_['text_minus']             = '-';
@@ -18,7 +18,7 @@ $_['text_amount']            = 'Fixed Amount';
 $_['text_keyword']           = 'Do not use spaces, instead replace spaces with - and make sure the SEO URL is globally unique.';
 
 // Column
-$_['column_name']            = 'Product Name';
+$_['column_name']            = 'Repair Rate Title';
 $_['column_model']           = 'Model';
 $_['column_image']           = 'Image';
 $_['column_price']           = 'Price';
@@ -102,9 +102,6 @@ $_['help_tag']               = 'Comma separated';
 
 // Error
 $_['error_warning']          = 'Warning: Please check the form carefully for errors!';
-$_['error_permission']       = 'Warning: You do not have permission to modify products!';
-$_['error_name']             = 'Product Name must be greater than 1 and less than 255 characters!';
-$_['error_meta_title']       = 'Meta Title must be greater than 1 and less than 255 characters!';
-$_['error_model']            = 'Product Model must be greater than 1 and less than 64 characters!';
-$_['error_keyword']          = 'SEO URL already in use!';
-$_['error_unique']           = 'SEO URL must be unique!';
+$_['error_permission']       = 'Warning: You do not have permission to modify repiar rates!';
+$_['error_product_id']       = 'Select a product!';
+$_['error_prices']           = 'Enter price!';
