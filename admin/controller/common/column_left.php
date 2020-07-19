@@ -167,6 +167,25 @@ class ControllerCommonColumnLeft extends Controller {
 			}
 
 			//custom section
+			if ($this->user->hasPermission('access', 'service/network')) {
+				$service[] = array(
+					'name'	   => "Network Options",
+					'href'     => $this->url->link('service/network', 'user_token=' . $this->session->data['user_token'], true),
+					'children' => array()		
+				);
+			}
+
+
+			//custom section
+			if ($this->user->hasPermission('access', 'service/memory')) {
+				$service[] = array(
+					'name'	   => "Memory Options",
+					'href'     => $this->url->link('service/memory', 'user_token=' . $this->session->data['user_token'], true),
+					'children' => array()		
+				);
+			}
+
+			//custom section
 			if ($service) {
 				$data['menus'][] = array(
 					'id'       => 'menu-service',

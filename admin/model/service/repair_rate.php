@@ -3,8 +3,9 @@ class ModelServiceRepairRate extends Model {
 	public function addRepairRate($data) {
 
 		foreach($data['prices'] as $issue_id => $price){
+			$days = $data['days'][$issue_id];
 			$this->db->query("INSERT INTO " . DB_PREFIX . "repair_rate SET product_id = " . (int)$data['product_id'] . "
-			, issue_id = " . (int)$issue_id." , price =".(int)$price." ;");
+			, issue_id = " . (int)$issue_id." , price =".(int)$price." ,days =".(int)$days." ;");
 		}
 
 		return true;
@@ -15,8 +16,10 @@ class ModelServiceRepairRate extends Model {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "repair_rate WHERE product_id =" . (int)$data['product_id']);
 
 		foreach($data['prices'] as $issue_id => $price){
+			$days = $data['days'][$issue_id];
+			
 			$this->db->query("INSERT INTO " . DB_PREFIX . "repair_rate SET product_id = " . (int)$data['product_id'] . "
-			, issue_id = " . (int)$issue_id." , price =".(int)$price." ;");
+			, issue_id = " . (int)$issue_id." , price =".(int)$price." ,days =".(int)$days.";");
 		}
 		return true;
 	}

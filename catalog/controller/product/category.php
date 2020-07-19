@@ -408,4 +408,63 @@ class ControllerProductCategory extends Controller {
 			$this->response->setOutput($this->load->view('error/not_found', $data));
 		}
 	}
+
+
+
+	public function all() {
+		$this->load->language('product/category');
+
+		$this->load->model('catalog/category');
+
+		$this->load->model('catalog/product');
+
+		$this->load->model('tool/image');
+
+
+		$data['breadcrumbs'] = array();
+
+		$data['breadcrumbs'][] = array(
+			'text' => $this->language->get('text_home'),
+			'href' => $this->url->link('common/home')
+		);
+
+		$data['breadcrumbs'][] = array(
+			'text' => 'Buy',
+			'href' => $this->url->link('product/category/all')
+		);
+
+		$results = $this->model_catalog_category->getCategories();
+
+
+		$this->load->model('tool/image');
+
+		foreach($results as $result){
+
+			if ($result['image']) {
+				$image = $this->model_tool_image->resize($result['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_product_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_product_height'));
+			} else {
+				$image = $this->model_tool_image->resize('placeholder.png', $this->config->get('theme_' . $this->config->get('config_theme') . '_image_product_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_product_height'));
+			}
+
+			$data['description'] = html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8');
+
+			$data['categories'][] = array(
+				'name' => $result['name'],
+				'image' => $image,
+				'href' => $this->url->link('product/category', 'path='.$result['category_id'])
+			);
+		}
+
+		$data['heading_title'] = "All categories";
+
+		$data['column_left'] = $this->load->controller('common/column_left');
+		$data['column_right'] = $this->load->controller('common/column_right');
+		$data['content_top'] = $this->load->controller('common/content_top');
+		$data['content_bottom'] = $this->load->controller('common/content_bottom');
+		$data['footer'] = $this->load->controller('common/footer');
+		$data['header'] = $this->load->controller('common/header');
+
+		$this->response->setOutput($this->load->view('product/all', $data));
+	
+	}
 }

@@ -22,7 +22,7 @@ class ModelCatalogProduct extends Model {
 		$data['status'] = 1;
 		$data['shipping'] = 1;
 
-		$data['minimum'] = 1;
+		//$data['minimum'] = 1;
 		$data['date_available'] = date('Y-m-d',time());
 		$data['weight'] = '';
 		$data['weight_class_id'] = 0;
@@ -191,7 +191,7 @@ class ModelCatalogProduct extends Model {
 		$data['subtract'] = 1;
 		$data['status'] = 1;
 		$data['shipping'] = 1;
-		$data['minimum'] = 1;
+		//$data['minimum'] = 1;
 		
 		$data['date_available'] = date('Y-m-d',time());
 		$data['weight'] = '';

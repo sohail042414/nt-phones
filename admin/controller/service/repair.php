@@ -324,10 +324,6 @@ class ControllerServiceRepair extends Controller {
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($rate_total) ? (($page - 1) * $this->config->get('config_limit_admin')) + 1 : 0, ((($page - 1) * $this->config->get('config_limit_admin')) > ($rate_total - $this->config->get('config_limit_admin'))) ? $rate_total : ((($page - 1) * $this->config->get('config_limit_admin')) + $this->config->get('config_limit_admin')), $rate_total, ceil($rate_total / $this->config->get('config_limit_admin')));
 
 		$data['filter_title'] = $filter_title;
-		// $data['filter_model'] = $filter_model;
-		// $data['filter_price'] = $filter_price;
-		// $data['filter_quantity'] = $filter_quantity;
-		// $data['filter_status'] = $filter_status;
 
 		$data['sort'] = $sort;
 		$data['order'] = $order;
@@ -420,7 +416,7 @@ class ControllerServiceRepair extends Controller {
 		}
 
 		if (isset($this->request->post['prices'])) {
-			$data['prices'] = $this->request->post['product_id'];
+			$data['prices'] = $this->request->post['prices'];
 		} elseif (!empty($product_info)) {
 
 			$prices = $this->model_service_repair_rate->getProductRates($product_info['product_id']);
@@ -432,6 +428,21 @@ class ControllerServiceRepair extends Controller {
 			//$data['prices'] = array();
 		} else {
 			$data['prices'] = array();
+		}
+
+		if (isset($this->request->post['days'])) {
+			$data['days'] = $this->request->post['days'];
+		} elseif (!empty($product_info)) {
+
+			$prices = $this->model_service_repair_rate->getProductRates($product_info['product_id']);
+
+			foreach($prices as $row){
+				$data['days'][$row['issue_id']] = $row['days'];
+			}
+			
+			//$data['prices'] = array();
+		} else {
+			$data['days'] = array();
 		}
 		
 		$this->load->model('service/issue');

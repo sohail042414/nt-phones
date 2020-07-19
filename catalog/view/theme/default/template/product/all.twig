@@ -1,0 +1,44 @@
+{{ header }}
+<div id="product-category" class="container">
+  <ul class="breadcrumb">
+    {% for breadcrumb in breadcrumbs %}
+    <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+    {% endfor %}
+  </ul>
+  <div class="row">{{ column_left }}
+    {% if column_left and column_right %}
+    {% set class = 'col-sm-6' %}
+    {% elseif column_left or column_right %}
+    {% set class = 'col-sm-9' %}
+    {% else %}
+    {% set class = 'col-sm-12' %}
+    {% endif %}
+    <div id="content" class="{{ class }}">{{ content_top }}
+      <h2>{{ heading_title }}</h2>
+
+      {% if categories %}
+
+      <div class="row"> {% for category in categories %}
+        <div class="product-layout product-grid col-lg-3 col-md-3 col-sm-6 col-xs-12">
+          <div class="product-thumb">
+            <div class="image">
+              <a href="{{ category.href }}">
+              <img src="{{ category.image }}" alt="{{ category.name }}" title="{{ category.name }}" class="img-responsive" />
+              </a>
+            </div>
+          </div>
+          <div>
+            <div class="caption">
+                <h4>
+                <a href="{{ category.href }}">{{ category.name }}</a>
+                </h4>
+            </div>
+          </div>
+        </div>
+        {% endfor %} 
+      </div>
+      {% endif %}
+      {{ content_bottom }}</div>
+    {{ column_right }}</div>
+</div>
+{{ footer }} 

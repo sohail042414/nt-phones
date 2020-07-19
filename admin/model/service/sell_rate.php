@@ -2,40 +2,33 @@
 class ModelServiceSellRate extends Model {
 	public function addSellRate($data) {
 
-		// echo '<pre>';
-		// print_r($data);
-		// exit; 
 
-		foreach($data['prices'] as $grade_id => $price){
+		$this->db->query("DELETE FROM " . DB_PREFIX . "sell_rate WHERE product_id =" . (int)$data['product_id']);
+
+
+		foreach($data['sell_rate'] as  $record){
 
 			$this->db->query("INSERT INTO " . DB_PREFIX . "sell_rate SET product_id = " . (int)$data['product_id'] . "
-			, grade_id = " . (int)$grade_id." , price =".(int)$price.", box=1;");
+			, grade_id = " . (int)$record['grade_id']." , price =".(int)$record['price'].", box=".(int)$record['box'].", memory_id =".(int)$record['memory_id'].", network_id =".(int)$record['network_id']."");
 			
-			$price_without_box = $data['prices_without_box'][$grade_id];
-
-			$this->db->query("INSERT INTO " . DB_PREFIX . "sell_rate SET product_id = " . (int)$data['product_id'] . "
-			, grade_id = " . (int)$grade_id." , price =".(int)$price_without_box.", box=0 ;");
 		}
 		return true;
 	}
 
 	public function editSellRate($data) {	
 
-		// echo '<pre>';
+
+		// echo '<pre>edit';
 		// print_r($data);
 		// exit; 
 
+
 		$this->db->query("DELETE FROM " . DB_PREFIX . "sell_rate WHERE product_id =" . (int)$data['product_id']);
 
-		foreach($data['prices'] as $grade_id => $price){
+		foreach($data['sell_rate'] as  $record){
 
 			$this->db->query("INSERT INTO " . DB_PREFIX . "sell_rate SET product_id = " . (int)$data['product_id'] . "
-			, grade_id = " . (int)$grade_id." , price =".(int)$price.", box= 1;");
-			
-			$price_without_box = $data['prices_without_box'][$grade_id];
-
-			$this->db->query("INSERT INTO " . DB_PREFIX . "sell_rate SET product_id = " . (int)$data['product_id'] . "
-			, grade_id = " . (int)$grade_id." , price =".(int)$price_without_box." box=0 ;");
+			, grade_id = " . (int)$record['grade_id']." , price =".(int)$record['price'].", box=".(int)$record['box'].", memory_id =".(int)$record['memory_id'].", network_id =".(int)$record['network_id']."");			
 		}
 
 		return true;

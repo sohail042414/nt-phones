@@ -46,35 +46,89 @@
 
             <h3 class="panel-title">Set price/charges for each grade/condition listed below for selected product.</h3>
 
-            {% if grades %}
-            {% for grade in grades %}
+              <div class="table-responsive">
+                <table id="attribute" class="table table-striped table-bordered table-hover">
+                  <thead>
+                    <tr>
+                      <td class="text-left">Grade</td>
+                      <td class="text-left">Memory</td>
+                      <td class="text-left">Network</td>
+                      <td class="text-left">Box</td>
+                      <td class="text-left">Price</td>
+                      <td></td>
+                    </tr>
+                  </thead>
+                  <tbody>
 
+                    {% set rate_row = 0 %}
+                    {% for rate in rates %}
+                      <tr id="rate-row{{ rate_row }}">
+                        
+                        <td class="text-left">                        
+                          <select name="sell_rate[{{ rate_row }}][grade_id]" class="form-control">
+                              {% for grade in grades %}
+                              {% if rate.grade_id == grade.grade_id %}
+                                <option selected="selected" value="{{ grade.grade_id }}">{{grade.title}}</option>
+                              {% else %}
+                               <option value="{{ grade.grade_id }}">{{grade.title}}</option>
+                              {% endif %}
+                              {% endfor %}
+                          </selece> 
+                          <input type="hidden" name="sell_rate[{{ rate_row }}][sell_rate_id]" value="{{ rate.sell_rate_id }}"/>
+                        </td>
 
-                  <div class="form-group">
+                        <td class="text-left">                        
+                          <select name="sell_rate[{{ rate_row }}][memory_id]" class="form-control">
+                              {% for memory in memories %}
+                              {% if rate.memory_id == memory.memory_id %}                              
+                              <option selected="selected" value="{{ memory.memory_id }}">{{memory.name}}</option>
+                              {% else %}
+                              <option value="{{ memory.memory_id }}">{{memory.name}}</option>
+                              {% endif %}
+                              {% endfor %}
+                          </selece>                           
+                        </td>
 
-                    <label class="col-sm-2 col-md-2 control-label" for="input-color">{{ grade.title }}</label>
+                        <td class="text-left">                        
+                          <select name="sell_rate[{{ rate_row }}][network_id]" class="form-control">
+                              {% for network in networks %}
+                              {% if rate.network_id == network.network_id %} 
+                              <option selected="selected" value="{{ network.network_id }}">{{network.name}}</option>
+                               {% else %}
+                              <option  value="{{ network.network_id }}">{{network.name}}</option>
+                              {% endif %}
+                              {% endfor %}
+                          </selece>                           
+                        </td>
 
-                    <div class="col-sm-10 col-md-5">
-                      <label class="col-sm-2 col-md-2 control-label" for="input-color">With Box</label>
-                        <div class="col-sm-10 col-md-10">
-                        <input type="text" name="prices[{{ grade.grade_id }}]" value="{{ prices[grade.grade_id] }}" placeholder="Price" id="input-title" class="form-control"/>
-                        {% if error_prices %}
-                          <div class="text-danger">{{ error_prices }}</div>
-                        {% endif %}
-                        </div>
-                    </div>
-                    <div class="col-sm-10 col-md-5">
-                      <label class="col-sm-2 col-md-2 control-label" for="input-color">Without Box</label>
-                      <div class="col-sm-10 col-md-10">
-                        <input type="text" name="prices_without_box[{{ grade.grade_id }}]" value="{{ prices_without_box[grade.grade_id] }}" placeholder="Price" id="input-title" class="form-control"/>
-                          {% if error_prices %}
-                            <div class="text-danger">{{ error_prices }}</div>
-                          {% endif %}
-                        </div>
-                    </div>
-                  </div>
-            {% endfor %}
-            {% endif %}
+                        <td class="text-left">                        
+                          <select name="sell_rate[{{ rate_row }}][box]" class="form-control">
+                             
+                              <option  {% if rate.box == 1 %} selected="selected" {% endif %}  value="1">Yes</option>                              
+                              <option {% if rate.box == 0 %} selected="selected" {% endif %} value="0">No</option>                              
+                          </selece>                           
+                        </td>
+
+                        <td class="text-left">
+                          <input type="text" value="{{ rate.price }}" name="sell_rate[{{ rate_row }}][price]" placeholder="price" class="form-control">   
+                        </td>
+
+                        <td class="text-right">
+                          <button type="button" onclick="$('#rate-row{{ rate_row }}').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button>
+                        </td>
+                      </tr>
+                      {% set rate_row = rate_row + 1 %}
+                    {% endfor %}
+                  </tbody>
+
+                  <tfoot>
+                    <tr>
+                      <td colspan="5"></td>
+                      <td class="text-right"><button type="button" onclick="addAttribute();" data-toggle="tooltip" title="{{ button_attribute_add }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button></td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
         </form>
       </div>
     </div>
@@ -82,6 +136,57 @@
 
   <script type="text/javascript"><!--
   
+  var rate_row = {{ rate_row }};
+
+    function addAttribute() {
+      html = '<tr id="attribute-row' + rate_row + '">';
+
+      html += '  <td class="text-left">';
+      html += '<select name="sell_rate['+rate_row+'][grade_id]" class="form-control">';
+      {% for grade in grades %}
+      html += '<option value="{{ grade.grade_id }}">{{grade.title}}</option>';
+      {% endfor %}
+      html += '  </select>';
+      html += '  </td>';
+
+      html += '  <td class="text-left">';
+      html += '<select name="sell_rate['+rate_row+'][memory_id]" class="form-control">';
+      {% for memory in memories %}
+      html += '<option value="{{ memory.memory_id }}">{{memory.name}}</option>';
+      {% endfor %}
+      html += '  </select>';
+      html += '  </td>';
+
+      html += '  <td class="text-left">';
+      html += '<select name="sell_rate['+rate_row+'][network_id]" class="form-control">';
+      {% for network in networks %}
+      html += '<option value="{{ network.network_id }}">{{network.name}}</option>';
+      {% endfor %}
+      html += '  </select>';
+      html += '  </td>';
+      
+      html += '  <td class="text-left">';
+      html += '<select name="sell_rate['+rate_row+'][box]" class="form-control">';      
+      html += '<option value="1">Yes</option>';
+      html += '<option value="0">No</option>';
+      html += '  </select>';
+      html += '  </td>';
+
+
+      html += '  <td class="text-left">';
+      html += '<input type="text" name="sell_rate['+rate_row+'][price]" placeholder="price" class="form-control">';      
+      html += '  </td>';
+
+      html += '  <td class="text-right"><button type="button" onclick="$(\'#attribute-row' + rate_row + '\').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+      html += '</tr>';
+
+      $('#attribute tbody').append(html);
+
+      //attributeautocomplete(rate_row);
+
+      rate_row++;
+    }
+
   //--></script>
 </div>
 {{ footer }} 
