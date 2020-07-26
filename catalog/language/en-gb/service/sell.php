@@ -1,6 +1,6 @@
 <?php
 // Heading
-$_['heading_title']          = 'Sell Rates';
+$_['heading_title']          = 'Sell Your Unwanted Devices';
 
 // Text
 $_['text_success']           = 'Success: You have modified Sell Rates!';

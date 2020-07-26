@@ -1,0 +1,237 @@
+{{ header }}
+<div id="product" class="container">
+  <ul class="breadcrumb">
+    {% for breadcrumb in breadcrumbs %}
+    <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+    {% endfor %}
+  </ul>
+  <div class="row">{{ column_left }}
+    {% if column_left and column_right %}
+    {% set class = 'col-sm-6' %}
+    {% elseif column_left or column_right %}
+    {% set class = 'col-sm-9' %}
+    {% else %}
+    {% set class = 'col-sm-12' %}
+    {% endif %}
+    <div id="content" class="{{ class }}">{{ content_top }}
+      <div class="row">  
+        <div class="col-sm-12 col-md-12 col-lg-12">    
+          <h1>{{ heading_title }}</h1>      
+        </div>
+      </div>
+      <div class="row">
+
+        <div class="col-sm-12 col-md-5 col-lg-4"> {% if thumb %}
+          <ul class="thumbnails">
+            {% if thumb %}
+            <li><a class="thumbnail" href="{{ popup }}" title="{{ heading_title }}">
+            <img src="{{ thumb }}" title="{{ heading_title }}" alt="{{ heading_title }}" /></a></li>
+            {% endif %}            
+            {% if images %}
+            {% for image in images %}
+            <li class="image-additional"><a class="thumbnail" href="{{ image.popup }}" title="{{ heading_title }}"> <img src="{{ image.thumb }}" title="{{ heading_title }}" alt="{{ heading_title }}" /></a></li>
+            {% endfor %}
+            {% endif %}
+          </ul>
+          {% endif %}
+       </div>
+
+      <div class="col-sm-12 col-md-4 col-lg-4">
+          
+          <div class="form-group required">
+            <label class="control-label" for="grade">Condition/Grade</label>
+            <select name="network" id="grade" class="form-control sell-specs">
+              <option value="0">Select</option>
+              {% for grade in grades %}
+              <option value="{{ grade.grade_id }}"> {{ grade.title }} </option>
+              {% endfor %}
+            </select>            
+          </div>
+
+          <div class="form-group required">
+            <label class="control-label" for="network">Network</label>
+            <select name="network" id="network" class="form-control sell-specs">
+              <option value="0">Select</option>
+              {% for network in networks %}
+                <option value="{{ network.network_id }}"> {{ network.name }} </option>
+              {% endfor %}              
+            </select>            
+          </div>
+
+          <div class="form-group required">
+            <label class="control-label" for="memory">Memory</label>
+            <select name="network" id="memory" class="form-control sell-specs">
+              <option value="0">Select</option>
+              {% for memory in memories %}
+                <option value="{{ memory.memory_id }}"> {{ memory.name }} </option>
+              {% endfor %}    
+            </select>            
+          </div>
+
+          <div class="form-group required">
+            <label class="control-label" for="box">Box</label>
+            <select name="box" id="box" class="form-control sell-specs">
+              <option value="1">Yes</option>   
+              <option value="0">No</option>   
+            </select>            
+          </div>
+
+          <div class="form-group" style="margin-top:20px; ">
+              <input type="hidden" name="quantity" value="1" size="2" id="input-quantity" class="form-control" />
+              <input type="hidden" name="price" id="price" value="{{ price }}" />
+              <input type="hidden" name="product_id" id="product_id" value="{{ product_id }}" />
+              <input type="hidden" name="sell_rate_id" id="sell_rate_id" value="0" />
+              <button type="button" id="button-cart" data-loading-text="{{ text_loading }}" class="btn btn-primary btn-lg btn-block">Sell Now</button>
+          </div>
+      </div>
+      <div class="col-sm-12 col-md-4 col-lg-4">
+           <h1>Price we offer </h1>      
+          {% if price %}
+          <ul class="list-unstyled">
+            <li>
+              <h2 id="price-display">Price : {{ price }}</h2>
+            </li>
+          </ul>
+          {% endif %}
+          </div>
+      </div>
+    {{ column_right }}</div>
+</div>
+<script type="text/javascript"><!--
+$(document).ready(function() {
+  
+  $('.sell-specs').on('change',function(){
+
+      var network = $('#network').val();
+      var memory = $('#memory').val();
+      var grade = $('#grade').val();
+      var box = $('#box').val();
+      var product_id = $('#product_id').val();
+
+      var mobile_data ={
+          product_id : product_id,
+          network_id: network,
+          memory_id: memory,
+          grade_id: grade,
+          box: box,
+      };
+      
+	$.ajax({
+      url: 'index.php?route=service/sell/price',
+      type: 'post',
+      data: mobile_data,
+      dataType: 'json',
+      beforeSend: function() {
+        $('#button-cart').button('loading');
+      },
+      complete: function() {
+        $('#button-cart').button('reset');
+      },
+		  success: function(json) {
+
+          if(json.status){
+              $('#price-display').text('Price : '+json.price);
+              $('#sell_rate_id').val(json.sell_rate_id);
+          }else{
+              $('#price-display').text('Price : '+json.price);              
+          }
+
+          $('#price').val(json.price_number);
+
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+	});
+
+  });
+
+});
+
+
+//--></script> 
+<script type="text/javascript"><!--
+$('#button-cart').on('click', function() {
+	$.ajax({
+		url: 'index.php?route=checkout/cart/add',
+		type: 'post',
+		data: $('#product input[type=\'text\'], #product input[type=\'hidden\'], #product input[type=\'radio\']:checked, #product input[type=\'checkbox\']:checked, #product select, #product textarea'),
+		dataType: 'json',
+		beforeSend: function() {
+			$('#button-cart').button('loading');
+		},
+		complete: function() {
+			$('#button-cart').button('reset');
+		},
+		success: function(json) {
+			$('.alert-dismissible, .text-danger').remove();
+			$('.form-group').removeClass('has-error');
+
+			if (json['error']) {
+				if (json['error']['option']) {
+					for (i in json['error']['option']) {
+						var element = $('#input-option' + i.replace('_', '-'));
+
+						if (element.parent().hasClass('input-group')) {
+							element.parent().after('<div class="text-danger">' + json['error']['option'][i] + '</div>');
+						} else {
+							element.after('<div class="text-danger">' + json['error']['option'][i] + '</div>');
+						}
+					}
+				}
+
+				if (json['error']['recurring']) {
+					$('select[name=\'recurring_id\']').after('<div class="text-danger">' + json['error']['recurring'] + '</div>');
+				}
+
+				// Highlight any found errors
+				$('.text-danger').parent().addClass('has-error');
+			}
+
+			if (json['success']) {
+				$('.breadcrumb').after('<div class="alert alert-success alert-dismissible">' + json['success'] + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+
+				$('#cart > button').html('<span id="cart-total"><i class="fa fa-shopping-cart"></i> ' + json['total'] + '</span>');
+
+				$('html, body').animate({ scrollTop: 0 }, 'slow');
+
+				$('#cart > ul').load('index.php?route=common/cart/info ul li');
+			}
+		},
+        error: function(xhr, ajaxOptions, thrownError) {
+            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+	});
+});
+//--></script> 
+<script type="text/javascript"><!--
+$('.date').datetimepicker({
+	language: '{{ datepicker }}',
+	pickTime: false
+});
+
+$('.datetime').datetimepicker({
+	language: '{{ datepicker }}',
+	pickDate: true,
+	pickTime: true
+});
+
+$('.time').datetimepicker({
+	language: '{{ datepicker }}',
+	pickDate: false
+});
+
+//--></script> 
+<script type="text/javascript"><!--
+
+$(document).ready(function() {
+	$('.thumbnails').magnificPopup({
+		type:'image',
+		delegate: 'a',
+		gallery: {
+			enabled: true
+		}
+	});
+});
+//--></script> 
+{{ footer }} 

@@ -54,11 +54,18 @@ class ControllerCommonCart extends Controller {
 
 		$data['products'] = array();
 
+
 		foreach ($this->cart->getProducts() as $product) {
 			
+
+
 			$issue_title = '';
 			$issue_id = 0;
 			$issue_price = 0;
+
+			$sell_rate_id = 0;
+			//$sell_title = '';
+			$sell_price = 0;
 
 			if((int)$product['issue_id'] > 0){
 				$issue_id = (int) $product['issue_id'];
@@ -66,7 +73,16 @@ class ControllerCommonCart extends Controller {
 				$issue = $this->model_service_issue->getProductIssue($product['product_id'], $product['issue_id']);
 				$issue_title = $issue['title'];
 				$issue_price = $issue['price'];
+			}else if($product['sell_rate_id'] > 0){
+
+				$sell_rate_id = (int)$product['sell_rate_id'];
+
+				$this->load->model('service/sell_rate');
+				$sell_rate = $this->model_service_sell_rate->getRateById($sell_rate_id);
+				$sell_price = $sell_rate['price'];
+				
 			}
+
 			if($issue_id > 0){
 				$image = $this->model_tool_image->resize($issue['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_cart_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_cart_height'));
 			}else if ($product['image']) {
@@ -97,17 +113,27 @@ class ControllerCommonCart extends Controller {
 				);
 			}
 
+			$name = '';
 			// Display prices
 			if ($this->customer->isLogged() || !$this->config->get('config_customer_price')) {
 				
 				if($issue_id > 0){
 
+					$name = $product['name']. " ,  Repair ( ".$issue_title." )";
+
 					$unit_price = $issue_price;					
 					$price = $this->currency->format($unit_price, $this->session->data['currency']);
 					$total = $this->currency->format($unit_price * $product['quantity'], $this->session->data['currency']);
 					
-				}else{
+				}else if($sell_rate_id > 0){
 
+					$name =  "Sell " .$product['name'];
+
+					$unit_price = $sell_price;					
+					$price = $this->currency->format($unit_price, $this->session->data['currency']);
+					$total = $this->currency->format($unit_price * $product['quantity'], $this->session->data['currency']);
+
+				}else{
 					$unit_price = $this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax'));				
 					$price = $this->currency->format($unit_price, $this->session->data['currency']);
 					$total = $this->currency->format($unit_price * $product['quantity'], $this->session->data['currency']);
@@ -122,7 +148,7 @@ class ControllerCommonCart extends Controller {
 				'cart_id'   => $product['cart_id'],
 				'thumb'     => $image,
 				//'name'      => $product['name'],
-				'name'      => !empty($issue_title) ? $product['name']. " ,  Repair ( ".$issue_title." )" : $product['name'],
+				'name'      => $name,
 				'model'     => $product['model'],
 				'option'    => $option_data,
 				'recurring' => ($product['recurring'] ? $product['recurring']['name'] : ''),

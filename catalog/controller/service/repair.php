@@ -31,7 +31,6 @@ class ControllerServiceRepair extends Controller {
 				$image = $this->model_tool_image->resize('placeholder.png', $this->config->get('theme_' . $this->config->get('config_theme') . '_image_product_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_product_height'));
 			}
 
-			$data['description'] = html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8');
 
 			$data['categories'][] = array(
 				'name' => $result['name'],
@@ -451,6 +450,8 @@ class ControllerServiceRepair extends Controller {
 			if ($limit && ceil($product_total / $limit) > $page) {
 			    $this->document->addLink($this->url->link('product/category', 'path=' . $category_info['category_id'] . '&page='. ($page + 1)), 'next');
 			}
+
+			$data['text_empty'] = 'No products in this category';
 
 			$data['sort'] = $sort;
 			$data['order'] = $order;

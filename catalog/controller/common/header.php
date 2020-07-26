@@ -24,6 +24,18 @@ class ControllerCommonHeader extends Controller {
 			$this->document->addLink($server . 'image/' . $this->config->get('config_icon'), 'icon');
 		}
 
+		$route = $this->request->get['route'];
+
+		$route_parts = explode('/',$route);
+
+		if(isset($route_parts[1])  && $route_parts[1] =='sell'){
+			$data['route'] = 'sell';
+		}else if(isset($route_parts[1])  && $route_parts[1] =='repair'){
+			$data['route'] = 'repair';
+		}else{
+			$data['route'] = '';
+		}
+
 		$data['title'] = $this->document->getTitle();
 
 		$data['base'] = $server;
@@ -76,6 +88,8 @@ class ControllerCommonHeader extends Controller {
 		$data['search'] = $this->load->controller('common/search');
 		$data['cart'] = $this->load->controller('common/cart');
 		$data['menu'] = $this->load->controller('common/menu');
+
+		$data['search_service'] = $this->load->controller('common/search/service');
 
 		return $this->load->view('common/header', $data);
 	}

@@ -63,12 +63,25 @@ class ControllerCheckoutCart extends Controller {
 				$issue_id = 0;
 				$issue_price = 0;
 
+				$sell_rate_id = 0;
+				//$sell_title = '';
+				$sell_price = 0;
+
+
 				if((int)$product['issue_id'] > 0){
 					$issue_id = (int) $product['issue_id'];
 					$this->load->model('service/issue');
 					$issue = $this->model_service_issue->getProductIssue($product['product_id'], $product['issue_id']);
 					$issue_title = $issue['title'];
 					$issue_price = $issue['price'];
+				}else if($product['sell_rate_id'] > 0){
+
+					$sell_rate_id = (int)$product['sell_rate_id'];
+	
+					$this->load->model('service/sell_rate');
+					$sell_rate = $this->model_service_sell_rate->getRateById($sell_rate_id);
+					$sell_price = $sell_rate['price'];
+					
 				}
 				
 				$product_total = 0;
@@ -121,6 +134,14 @@ class ControllerCheckoutCart extends Controller {
 						$price = $this->currency->format($unit_price, $this->session->data['currency']);
 						$total = $this->currency->format($unit_price * $product['quantity'], $this->session->data['currency']);
 						
+					}else if($sell_rate_id > 0){
+
+						$name =  "Sell " .$product['name'];
+	
+						$unit_price = $sell_price;					
+						$price = $this->currency->format($unit_price, $this->session->data['currency']);
+						$total = $this->currency->format($unit_price * $product['quantity'], $this->session->data['currency']);
+	
 					}else{
 						$unit_price = $this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax'));					
 						$price = $this->currency->format($unit_price, $this->session->data['currency']);
@@ -159,8 +180,9 @@ class ControllerCheckoutCart extends Controller {
 				$data['products'][] = array(
 					'cart_id'   => $product['cart_id'],
 					'thumb'     => $image,
+					'name'      => $name,
 					//'name'      => $product['name'],
-					'name'      => !empty($issue_title) ? $product['name']. " ,  Repair ( ".$issue_title." )" : $product['name'],
+					//'name'      => !empty($issue_title) ? $product['name']. " ,  Repair ( ".$issue_title." )" : $product['name'],
 					'model'     => $product['model'],
 					'option'    => $option_data,
 					'recurring' => $recurring,
@@ -287,6 +309,7 @@ class ControllerCheckoutCart extends Controller {
 	}
 
 	public function add() {
+		
 		$this->load->language('checkout/cart');
 
 		$json = array();
@@ -301,6 +324,12 @@ class ControllerCheckoutCart extends Controller {
 			$issue_id = (int)$this->request->post['issue_id'];
 		} else {
 			$issue_id = 0;
+		}
+
+		if (isset($this->request->post['sell_rate_id'])) {
+			$sell_rate_id = (int)$this->request->post['sell_rate_id'];
+		} else {
+			$sell_rate_id = 0;
 		}
 
 		$this->load->model('catalog/product');
@@ -349,7 +378,8 @@ class ControllerCheckoutCart extends Controller {
 			}
 
 			if (!$json) {
-				$this->cart->add($this->request->post['product_id'], $quantity, $option, $recurring_id,$issue_id);
+
+				$this->cart->add($this->request->post['product_id'], $quantity, $option, $recurring_id,$issue_id,$sell_rate_id);
 
 				$json['success'] = sprintf($this->language->get('text_success'), $this->url->link('product/product', 'product_id=' . $this->request->post['product_id']), $product_info['name'], $this->url->link('checkout/cart'));
 
