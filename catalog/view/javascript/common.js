@@ -70,6 +70,7 @@ $(document).ready(function() {
 	});
 
 	// Menu
+	/*
 	$('#menu .dropdown-menu').each(function() {
 		var menu = $('#menu').offset();
 		var dropdown = $(this).parent().offset();
@@ -80,6 +81,7 @@ $(document).ready(function() {
 			$(this).css('margin-left', '-' + (i + 10) + 'px');
 		}
 	});
+	*/
 
 	// Product List
 	$('#list-view').click(function() {

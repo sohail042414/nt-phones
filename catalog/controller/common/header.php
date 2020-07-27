@@ -24,9 +24,11 @@ class ControllerCommonHeader extends Controller {
 			$this->document->addLink($server . 'image/' . $this->config->get('config_icon'), 'icon');
 		}
 
-		$route = $this->request->get['route'];
+		$route = isset($this->request->get['route']) ? $this->request->get['route'] : '';
 
 		$route_parts = explode('/',$route);
+
+		$data['route'] = '';
 
 		if(isset($route_parts[1])  && $route_parts[1] =='sell'){
 			$data['route'] = 'sell';
