@@ -68,13 +68,14 @@ class ControllerExtensionModuleCategory extends Controller {
 		*/
 
 		$categories = $this->model_catalog_category->getCategories(0);
-
 		
 		$this->tree_html = '';
 
+		$this->tree_html .= '<ul class="list-group">';
+
 		foreach ($categories as $category) {
 			$this->tree_level = 0;
-			$this->spacer = '>';
+			$this->spacer = '';
 			
 			$filter_data = array(
 				'filter_category_id'  => $category['category_id'],
@@ -90,14 +91,16 @@ class ControllerExtensionModuleCategory extends Controller {
 			$data['categories'][] = $record;
 
 			 if ($category['category_id'] == $data['category_id']){
-				$this->tree_html .= '<a href="'.$record['href'].'" class="list-group-item active">'.$record['name'].'</a>';
+				$this->tree_html .= '<li class="list-group-item active"><a href="'.$record['href'].'" class="list-group-item-custom active">'.$record['name'].'</a></li>';
 			 }else{
-				$this->tree_html .= '<a href="'.$record['href'].'" class="list-group-item ">'.$record['name'].'</a>';
+				$this->tree_html .= '<li class="list-group-item"><a href="'.$record['href'].'" class="list-group-item-custom ">'.$record['name'].'</a></li>';
 			 } 
 
 			 $record['children_data'] = $this->getChildren($category,$data); 
 
 		}
+
+		$this->tree_html .= '</ul>';
 
 		$data['tree_html'] = $this->tree_html;
 
@@ -114,7 +117,9 @@ class ControllerExtensionModuleCategory extends Controller {
 		
 		if(count($children) > 0){
 			
-			$this->spacer = '&nbsp;&nbsp;&nbsp;'.$this->spacer;
+			//$this->spacer = '&nbsp;&nbsp;&nbsp;'.$this->spacer;
+
+			$this->tree_html .='<ul class="list-group">';
 
 			foreach($children as $child) {			
 
@@ -127,9 +132,9 @@ class ControllerExtensionModuleCategory extends Controller {
 				);				
 
 				if($child['category_id'] == $data['child_id']) {
-					$this->tree_html .='<a href="'.$record['href'].'" class="list-group-item active">'.$this->spacer.$record['name'].'</a>'; 
+					$this->tree_html .='<li class="list-group-item active"><a href="'.$record['href'].'" class="list-group-item-custom active">'.$this->spacer.$record['name'].'</a></li>'; 
 				}else{
-					$this->tree_html .='<a href="'.$record['href'].'" class="list-group-item">'.$this->spacer.$record['name'].'</a>';
+					$this->tree_html .='<li class="list-group-item"><a href="'.$record['href'].'" class="list-group-item-custom">'.$this->spacer.$record['name'].'</a></li>';
 				}
 
 				$record['children'] =  $this->getChildren($child,$data);
@@ -137,6 +142,8 @@ class ControllerExtensionModuleCategory extends Controller {
 				$children_data[] = $record;
 				
 			}
+
+			$this->tree_html .='</ul>';
 		}
 
 		return $children_data;

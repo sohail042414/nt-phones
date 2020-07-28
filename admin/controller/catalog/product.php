@@ -1160,6 +1160,41 @@ class ControllerCatalogProduct extends Controller {
 			$data['product_layout'] = array();
 		}
 
+
+		if (isset($this->request->post['network'])) {
+			$data['network'] = $this->request->post['network'];
+		} elseif (!empty($product_info)) {
+			$data['network'] = $product_info['network'];
+		} else {
+			$data['network'] = '';
+		}
+
+		if (isset($this->request->post['memory'])) {
+			$data['memory'] = $this->request->post['memory'];
+		} elseif (!empty($product_info)) {
+			$data['memory'] = $product_info['memory'];
+		} else {
+			$data['memory'] = '';
+		}
+
+		if (isset($this->request->post['color'])) {
+			$data['color'] = $this->request->post['color'];
+		} elseif (!empty($product_info)) {
+			$data['color'] = $product_info['color'];
+		} else {
+			$data['color'] = '';
+		}
+
+		if (isset($this->request->post['grade'])) {
+			$data['grade'] = $this->request->post['grade'];
+		} elseif (!empty($product_info)) {
+			$data['grade'] = $product_info['grade'];
+		} else {
+			$data['grade'] = '';
+		}
+
+
+
 		$this->load->model('design/layout');
 
 		$data['layouts'] = $this->model_design_layout->getLayouts();
