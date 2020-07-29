@@ -154,8 +154,6 @@ class ControllerCommonMenu extends Controller {
 		}
 
 
-
-
 		$data['buy_href'] = $this->url->link('product/category/all');
 		$data['sell_href'] = $this->url->link('service/sell');
 		$data['repair_href'] = $this->url->link('service/repair');
