@@ -77,7 +77,7 @@ var route = '{{ route }}';
           {% endif %}</div>
       </div>
       <div class="col-sm-5">
-      {% if(route =='') %}
+      {% if(route =='' and 1==2) %}
       {{ search }}
       {% endif %}
       </div>
@@ -85,18 +85,14 @@ var route = '{{ route }}';
     </div>
   </div>
 </header>
-
-{{ menu }}
-
-{% if(route != '') %}
 <div class="container">
   <div class="row">
   <div class="col-sm-3">
   </div>
   <div class="col-sm-6">
-  {{ search_service }}
+  {{ search }}
   </div>
   <div class="col-sm-3">
   </div>
 </div>
-{% endif %}
+{{ menu }}

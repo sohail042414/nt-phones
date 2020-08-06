@@ -1585,8 +1585,8 @@
 
   //--></script>
   <script type="text/javascript"><!--
-  var discount_row = {{ discount_row }};
-
+  //var discount_row = {{ discount_row }};
+    var discount_row = 0;
   function addDiscount() {
 	  html = '<tr id="discount-row' + discount_row + '">';
 	  html += '  <td class="text-left"><select name="product_discount[' + discount_row + '][customer_group_id]" class="form-control">';
@@ -1613,7 +1613,8 @@
 
   //--></script>
   <script type="text/javascript"><!--
-  var special_row = {{ special_row }};
+  //var special_row = {{ special_row }};
+    var special_row = 0;
 
   function addSpecial() {
 	  html = '<tr id="special-row' + special_row + '">';
@@ -1657,7 +1658,8 @@
 
   //--></script>
   <script type="text/javascript"><!--
-  var recurring_row = {{ recurring_row }};
+  //var recurring_row = {{ recurring_row }};
+    var recurring_row = 0;
 
   function addRecurring() {
 	  html = '<tr id="recurring-row' + recurring_row + '">';

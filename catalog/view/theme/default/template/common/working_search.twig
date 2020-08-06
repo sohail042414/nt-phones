@@ -98,16 +98,8 @@
 							// ungrouped items
 							//html += '<li data-value="' + json[i]['value'] + '"><a href="#">' + json[i]['label'] + '</a></li>';
               html += '<li data-value="' + json[i]['value'] + '">';
-              html += '<div class="row">';
-              html += '<div class="col-lg-2 col-md-2 col-sm-2">';
-              html += '<a href="'+json[i]['href']+'">';
-              html += '<img class="img-responsive" src="'+json[i]['img']+'" title="'+ json[i]['label']+'">';
-              html += '</a>';
-              html += '</div>';  
-              html += '<div class="col-lg-10 col-md-10 col-sm-10">';
               html += '<a href="'+json[i]['href']+'">' + json[i]['label'] + '</a>';
-              html += '</div>';  
-              html += '</div>';                                          
+              html += '<img class="img-responsive" src="'+json[i]['img']+'" title="'+ json[i]['label']+'">';
               html += '</li>';
 						
             } else {
