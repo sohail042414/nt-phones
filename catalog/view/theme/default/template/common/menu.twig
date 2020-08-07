@@ -11,17 +11,17 @@
       {% if categories %}
         <li class="dropdown">
           <a href="{{ buy_href }}">BUY</a>
-          <div class="dropdown-menu" style="width:1070px;">
+          <div class="dropdown-menu custom-menu" style="width:1070px;">
               <div class="dropdown-inner full-menu" style="display:block;"> 
               <div class="row">
                 {% for category in categories %}
                   <div class="col-lg-3 col-md-3 col-sm-12">                  
-                    <a href="{{ category.href }}"><h2>{{ category.name }}</h2></a>                 
+                    <a class="text-center" href="{{ category.href }}"><h2>{{ category.name }}</h2></a>                 
                     {% if category.products %}
 
-                    <ul class="list-unstyled">
+                    <ul class="list-unstyled full-width-menu">
                       {% for product in category.products %}
-                        <li><a href="{{ product.href }}">{{ product.name }}</a></li>
+                        <li><a class="text-center" href="{{ product.href }}">{{ product.name }}</a></li>
                       {% endfor %} 
                     </ul>
                     {% endif %}                
@@ -35,18 +35,18 @@
         {% if sell_categories %}
         <li class="dropdown">
           <a href="{{ sell_href }}" >SELL</a>
-            <div class="dropdown-menu" style="width:1070px;left: -370px">
+            <div class="dropdown-menu custom-menu" style="width:1070px;left: -370px">
               <div class="dropdown-inner full-menu" style="display:block;"> 
 
               <div class="row">
                 {% for category in sell_categories %}
                   <div class="col-lg-3 col-md-3 col-sm-12">                  
-                    <a href="{{ category.href }}"><h2>{{ category.name }}</h2></a>                 
+                    <a class="text-center" href="{{ category.href }}"><h2>{{ category.name }}</h2></a>                 
                     {% if category.products %}
 
-                    <ul class="list-unstyled">
+                    <ul class="list-unstyled full-width-menu">
                       {% for product in category.products %}
-                        <li><a href="{{ product.href }}">{{ product.name }}</a></li>
+                        <li><a class="text-center" href="{{ product.href }}">{{ product.name }}</a></li>
                       {% endfor %} 
                     </ul>
                     {% endif %}                
@@ -60,18 +60,18 @@
         {% if repair_categories %}
         <li class="dropdown">
           <a href="{{ repair_href }}" >REPAIR</a>
-            <div class="dropdown-menu" style="width:1070px;left: -720px">
+            <div class="dropdown-menu custom-menu" style="width:1070px;left: -720px">
               <div class="dropdown-inner full-menu" style="display:block;"> 
 
               <div class="row" style="width:100%";>
                 {% for category in repair_categories %}
                   <div class="col-lg-3 col-md-3 col-sm-12">                  
-                    <a href="{{ category.href }}"><h2>{{ category.name }}</h2></a>                 
+                    <a class="text-center" href="{{ category.href }}"><h2>{{ category.name }}</h2></a>                 
                     {% if category.products %}
 
-                    <ul class="list-unstyled">
+                    <ul class="list-unstyled full-width-menu">
                       {% for product in category.products %}
-                        <li><a href="{{ product.href }}">{{ product.name }}</a></li>
+                        <li><a class="text-center" href="{{ product.href }}">{{ product.name }}</a></li>
                       {% endfor %} 
                     </ul>
                     {% endif %}                
@@ -86,3 +86,12 @@
     </div>
   </nav>
 </div>
+<style>
+.full-width-menu{
+  min-width:265px;
+}
+
+.custom-menu a{
+  font-size:15px !important;
+}
+</style>

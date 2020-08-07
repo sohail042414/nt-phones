@@ -26,7 +26,7 @@ class ControllerCommonSearch extends Controller {
 
 			$search = $this->request->get['search'];
 
-			if(1==1){
+			if(!empty($search)){
 
 				$filter_data = array(
 					'filter_name'         => $search,
