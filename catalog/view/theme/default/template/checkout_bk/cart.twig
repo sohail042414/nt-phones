@@ -33,10 +33,6 @@
         {% if weight %}
         &nbsp;({{ weight }})
         {% endif %} </h1>
-
-      <div class="buttons clearfix">
-        <div class="pull-right"><a href="{{ continue }}" class="btn btn-success">{{ button_shopping }}</a></div>        
-      </div>
       <form action="{{ action }}" method="post" enctype="multipart/form-data">
         <div class="table-responsive">
           <table class="table table-bordered">
@@ -114,7 +110,7 @@
         </div>
       </div>
       <div class="buttons clearfix">
-        <div class="pull-left" style="display:none;"><a href="{{ continue }}" class="btn btn-success">{{ button_shopping }}</a></div>
+        <div class="pull-left"><a href="{{ continue }}" class="btn btn-success">{{ button_shopping }}</a></div>
         <div class="pull-right"><a href="{{ checkout }}" class="btn btn-primary">{{ button_checkout }}</a></div>
       </div>
       {{ content_bottom }}</div>

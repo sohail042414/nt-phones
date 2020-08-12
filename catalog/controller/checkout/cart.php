@@ -124,12 +124,13 @@ class ControllerCheckoutCart extends Controller {
 						'value' => (utf8_strlen($value) > 20 ? utf8_substr($value, 0, 20) . '..' : $value)
 					);
 				}
-
+				$name = $product['name'];
 				// Display prices
 				if ($this->customer->isLogged() || !$this->config->get('config_customer_price')) {
 
 					if($issue_id > 0){
-
+						
+						$name = $product['name']. " ,  Repair ( ".$issue_title." )";
 						$unit_price = $issue_price;					
 						$price = $this->currency->format($unit_price, $this->session->data['currency']);
 						$total = $this->currency->format($unit_price * $product['quantity'], $this->session->data['currency']);
@@ -137,12 +138,12 @@ class ControllerCheckoutCart extends Controller {
 					}else if($sell_rate_id > 0){
 
 						$name =  "Sell " .$product['name'];
-	
 						$unit_price = $sell_price;					
 						$price = $this->currency->format($unit_price, $this->session->data['currency']);
 						$total = $this->currency->format($unit_price * $product['quantity'], $this->session->data['currency']);
 	
 					}else{
+						
 						$unit_price = $this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax'));					
 						$price = $this->currency->format($unit_price, $this->session->data['currency']);
 						$total = $this->currency->format($unit_price * $product['quantity'], $this->session->data['currency']);
@@ -432,6 +433,8 @@ class ControllerCheckoutCart extends Controller {
 
 					array_multisort($sort_order, SORT_ASC, $totals);
 				}
+				//redirect to checkout 
+				$json['redirect'] = str_replace('&amp;', '&', $this->url->link('checkout/cart'));
 
 				$json['total'] = sprintf($this->language->get('text_items'), $this->cart->countProducts() + (isset($this->session->data['vouchers']) ? count($this->session->data['vouchers']) : 0), $this->currency->format($total, $this->session->data['currency']));
 			} else {

@@ -156,11 +156,10 @@ var cart = {
 
 				if (json['redirect']) {
 					location = json['redirect'];
-				}
-
-				if (json['success']) {
+				} else if (json['success']) {
+					
 					$('#content').parent().before('<div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> ' + json['success'] + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
-
+					
 					// Need to set timeout otherwise it wont update the total
 					setTimeout(function () {
 						$('#cart > button').html('<span id="cart-total"><i class="fa fa-shopping-cart"></i> ' + json['total'] + '</span>');

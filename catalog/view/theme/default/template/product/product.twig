@@ -388,6 +388,10 @@ $('#button-cart').on('click', function() {
 			$('.alert-dismissible, .text-danger').remove();
 			$('.form-group').removeClass('has-error');
 
+      if (json['redirect']) {
+        location = json['redirect'];
+      }
+
 			if (json['error']) {
 				if (json['error']['option']) {
 					for (i in json['error']['option']) {
